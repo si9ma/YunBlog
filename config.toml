@@ -1,0 +1,13 @@
+baseurl = "https://si9ma.me"
+title = "si9ma's blog"
+author = "si9ma"
+canonifyurls = true
+paginate = 5
+theme = "aether"
+disqusShortname = "si9ma"
+
+[params]
+brand = "si9ma"
+description = "si9ma's personal blog"
+homeimg= "attachments/home.jpg"
+bgimg= "attachments/bg.jpg"

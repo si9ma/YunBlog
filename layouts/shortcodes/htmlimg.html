@@ -1,0 +1,15 @@
+<style>
+    .image {
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+{{- $src := .Get "src" -}}
+{{- $href := .Get "href" -}}
+<div style="display: inline-block">
+    <a style="text-decoration:none" href="{{$href}}">
+        <img src="{{$src}}" class="image">
+    </a>
+</div>
