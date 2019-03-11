@@ -13,7 +13,7 @@ before_install:
 # before_install
 # install - install any dependencies required
 install:
-    - apt-get update && apt-get install hugo
+    - sudo apt-get update && sudo apt-get install hugo
 
 before_script:
     - rm -rf public 2> /dev/null
