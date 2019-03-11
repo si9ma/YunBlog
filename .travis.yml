@@ -13,4 +13,4 @@ before_script:
 
 # script - run the build script
 script:
-    - hugo && echo $ServerKey > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey
+    - set -xv && hugo && echo $ServerKey > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey && set +xv
