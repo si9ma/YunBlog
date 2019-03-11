@@ -1,0 +1,16 @@
+dist: xenial
+language: go
+go:
+    - master
+
+# before_install
+# install - install any dependencies required
+install:
+    - go get github.com/gohugoio/hugo
+
+before_script:
+    - rm -rf public 2> /dev/null
+
+# script - run the build script
+script:
+    - hugo && echo $ServerKey > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey
