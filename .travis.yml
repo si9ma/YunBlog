@@ -13,11 +13,12 @@ before_install:
 # before_install
 # install - install any dependencies required
 install:
-  - sudo apt-get update && sudo apt-get install hugo tree
+  - wget -qO- https://api.github.com/repos/gohugoio/hugo/releases/latest | sed -r -n '/browser_download_url/{/Linux-64bit.deb/{s@[^:]*:[[:space:]]*"([^"]*)".*@\1@g;p;q}}' | xargs wget
+  - sudo dpkg -i hugo*.deb
 
 before_script:
   - rm -rf public 2> /dev/null
 
 # script - run the build script
 script:
-  - set -xv && tree && hugo && echo $ServerKey | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey && set +xv
+  - set -xv && tree && hugo && echo $ServerKey | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey; set +xv
