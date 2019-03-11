@@ -13,11 +13,11 @@ before_install:
 # before_install
 # install - install any dependencies required
 install:
-  - sudo apt-get update && sudo apt-get install hugo
+  - sudo apt-get update && sudo apt-get install hugo tree
 
 before_script:
   - rm -rf public 2> /dev/null
 
 # script - run the build script
 script:
-  - set -xv && hugo && echo $ServerKey | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey && set +xv
+  - set -xv && tree && hugo && echo $ServerKey | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -av --delete public/ root@si9ma.com:$ServerKey && set +xv
