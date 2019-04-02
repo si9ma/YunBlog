@@ -4,4 +4,4 @@
 # 
 # Copyright 2019 si9ma <hellob374@gmail.com>
 
-rm -rf build && mkdir build && rsync -arv --exclude="./build" ./ ./build && cd build && ./preprocess.sh && hugo $@
+rm -rf build && mkdir build && rsync -ar --exclude="./build" ./ ./build && cd build && ./preprocess.sh && hugo $@
