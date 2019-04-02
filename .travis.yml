@@ -20,8 +20,5 @@ before_script:
 
 # script - run the build script
 script:
-  -	for file in `find . -name "*.md"`
-	- do
-  -	  sed -i 's/..\/..\/static\/img/\/img/g' $file
-	- done
+  - bash ./preprocess.sh
   - set -xv && hugo && echo -e `echo $SERVER_KEY | base64 -d` > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && rsync -e "ssh -o StrictHostKeyChecking=no" -av --delete public/ root@si9ma.com:$DEPLOY_DIR; set +xv

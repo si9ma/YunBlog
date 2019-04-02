@@ -22,7 +22,7 @@ draft: false
 
 ## 使用SSH访问内网
 
-![未命名文件.png](../../static/img/0d9da5fe.png)
+![SSH访问内网](../../static/img/0d9da5fe.png)
 
 ### 目标机器B
 
@@ -75,40 +75,8 @@ ssh root@vps_ip -p 222
 
 ### 登录目标机器B
 
-{{< sizeimg src="../../static/img/719f652e.png" size="50" >}}
-
-<!-- @startuml
-start
-
-->
-:ssh到vps的222端口>
-->
-:vps将222端口的请求转发到223端口>
-->
-:vps通过已经建立的SSH连接转发到机器B的22端口>
-->
-:连接成功>
-->
-
-stop
-@enduml -->
+{{< sizeimg src="/img/719f652e.png" size="50" >}}
 
 ### 访问机器B内网网站
 
-{{< sizeimg src="../../static/img/032da313.png" size="60" >}}
-
-<!--@startuml
-start
-
-->
-:浏览器中的请求通过配置的代理转发到vps的8080端口>
-->
-:delegated把http请求转换成sock请求转发到1080端口>
-->
-:vps通过已经建立的SSH连接将sock请求转发到机器B的8080端口>
-->
-:机器B访问网站,返回结果>
-->
-
-stop
-@enduml -->
+{{< sizeimg src="/img/032da313.png" size="60" >}}
