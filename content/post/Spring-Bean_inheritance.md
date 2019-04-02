@@ -20,7 +20,7 @@ draft: false
 
 #### 目录结构
 
-![project_tree](/attachments/Spring/BeanInheritance/project_tree.png)
+![project_tree](../../static/img/Spring/BeanInheritance/project_tree.png)
 
 #### Code
 
@@ -150,6 +150,6 @@ public class Main {
 
 #### 结果
 
-![result](/attachments/Spring/BeanInheritance/result.png)
+![result](../../static/img/Spring/BeanInheritance/result.png)
 
 `HelloSpring`的`message1`和`message2`的值继承自`HelloWorld`。

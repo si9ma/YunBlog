@@ -27,7 +27,7 @@ draft: false
 
 #### 目录结构
 
-![singleton_dir_tree](/attachments/Spring/singleton_and_prototype/singleton_dir_tree.png)
+![singleton_dir_tree](../../static/img/Spring/singleton_and_prototype/singleton_dir_tree.png)
 
 #### Code
 
@@ -93,7 +93,7 @@ public class Main {
 
 ##### 结果
 
-![singleton_result](/attachments/Spring/singleton_and_prototype/singleton_result.png)
+![singleton_result](../../static/img/Spring/singleton_and_prototype/singleton_result.png)
 
 从结果可以看出，`objA`和`objB`是同一个对象。
 
@@ -103,6 +103,6 @@ public class Main {
 
 #### 结果
 
-![prototype_result](/attachments/Spring/singleton_and_prototype/prototype_result.png)
+![prototype_result](../../static/img/Spring/singleton_and_prototype/prototype_result.png)
 
 从结果可以看出，`objA`和`objB`是不同的对象。

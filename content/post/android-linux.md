@@ -39,76 +39,76 @@ draft: false
 #### 下载安装BusyBox
 - 下载BusyBox后，打开BusyBox，如下图
 
-![](/attachments/android-linux/android-linux-1.png)
+![](../../static/img/android-linux/android-linux-1.png)
 
 - 安装BusyBox需要root权限，上图中为安装完成后的状态
 
 #### 安装Termux和Hacker’s Keyboard
 - 配置Hacker’s Keyboard
 
-![](/attachments/android-linux/android-linux-2.png)
+![](../../static/img/android-linux/android-linux-2.png)
 
-![](/attachments/android-linux/android-linux-3.png)
+![](../../static/img/android-linux/android-linux-3.png)
 
-![](/attachments/android-linux/android-linux-4.png)
+![](../../static/img/android-linux/android-linux-4.png)
 
-![](/attachments/android-linux/android-linux-5.png)
+![](../../static/img/android-linux/android-linux-5.png)
 
 - 效果
 
-![](/attachments/android-linux/android-linux-6.png)
+![](../../static/img/android-linux/android-linux-6.png)
 
 #### 安装Linux
 
 - 打开Linux Deploy,更换语言为中文
 
-![](/attachments/android-linux/android-linux-7.png)
+![](../../static/img/android-linux/android-linux-7.png)
 
-![](/attachments/android-linux/android-linux-8.png)
+![](../../static/img/android-linux/android-linux-8.png)
 
 - Linux Deploy设置
 
-![](/attachments/android-linux/android-linux-7.png)
+![](../../static/img/android-linux/android-linux-7.png)
 
-![](/attachments/android-linux/android-linux-9.png)
+![](../../static/img/android-linux/android-linux-9.png)
 
-![](/attachments/android-linux/android-linux-10.png)
+![](../../static/img/android-linux/android-linux-10.png)
 
 - 配置Linux Deploy（点击主界面右下角类似有下载的图标进行配置）
 
-![](/attachments/android-linux/android-linux-11.png)
+![](../../static/img/android-linux/android-linux-11.png)
 
-![](/attachments/android-linux/android-linux-12.png)
+![](../../static/img/android-linux/android-linux-12.png)
 
-![](/attachments/android-linux/android-linux-13.png)
+![](../../static/img/android-linux/android-linux-13.png)
 
 - 安装
 
-![](/attachments/android-linux/android-linux-14.png)
+![](../../static/img/android-linux/android-linux-14.png)
 
-![](/attachments/android-linux/android-linux-15.png)
+![](../../static/img/android-linux/android-linux-15.png)
 
-![](/attachments/android-linux/android-linux-16.png)
+![](../../static/img/android-linux/android-linux-16.png)
 
-![](/attachments/android-linux/android-linux-17.png)
+![](../../static/img/android-linux/android-linux-17.png)
 
-![](/attachments/android-linux/android-linux-18.png)
+![](../../static/img/android-linux/android-linux-18.png)
 
 安装中……….
 
 - 启动
 
-![](/attachments/android-linux/android-linux-19.png)
+![](../../static/img/android-linux/android-linux-19.png)
 
-![](/attachments/android-linux/android-linux-20.png)
+![](../../static/img/android-linux/android-linux-20.png)
 
 #### SSH连接Linux
 - 打开Termux，通过SSH连接容器，本地地址为127.0.0.1，或者远程连接容器，IP地址在Linux Deploy主页可以看到，通过sudo passwd root更改root用户的密码
 
 
-![](/attachments/android-linux/android-linux-21.png)
+![](../../static/img/android-linux/android-linux-21.png)
 
-![](/attachments/android-linux/android-linux-22.png)
+![](../../static/img/android-linux/android-linux-22.png)
 
 #### Done
 - 终于可以愉快地在手机上玩耍Linux了

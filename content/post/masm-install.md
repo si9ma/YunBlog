@@ -76,31 +76,31 @@ WINEPREFIX=~/.wine_ml11 wine install.exe
 
 - 安装过程(一路ok）：
 
- ![](/attachments/masm-install/masm-install-1.png)
+ ![](../../static/img/masm-install/masm-install-1.png)
 
- ![](/attachments/masm-install/masm-install-2.png)
+ ![](../../static/img/masm-install/masm-install-2.png)
  
- ![](/attachments/masm-install/masm-install-3.png)
+ ![](../../static/img/masm-install/masm-install-3.png)
 
- ![](/attachments/masm-install/masm-install-4.png)
+ ![](../../static/img/masm-install/masm-install-4.png)
  
- ![](/attachments/masm-install/masm-install-5.png)
+ ![](../../static/img/masm-install/masm-install-5.png)
 
- ![](/attachments/masm-install/masm-install-6.png)
+ ![](../../static/img/masm-install/masm-install-6.png)
  
- ![](/attachments/masm-install/masm-install-7.png)
+ ![](../../static/img/masm-install/masm-install-7.png)
  
- ![](/attachments/masm-install/masm-install-8.png)
+ ![](../../static/img/masm-install/masm-install-8.png)
  
- ![](/attachments/masm-install/masm-install-9.png)
+ ![](../../static/img/masm-install/masm-install-9.png)
 
- ![](/attachments/masm-install/masm-install-10.png)
+ ![](../../static/img/masm-install/masm-install-10.png)
 
- ![](/attachments/masm-install/masm-install-11.png)
+ ![](../../static/img/masm-install/masm-install-11.png)
 
 - 创建桌面快捷方式，yes创建，no不创建。
 
- ![](/attachments/masm-install/masm-install-12.png)
+ ![](../../static/img/masm-install/masm-install-12.png)
  
  - 安装成功
 
@@ -117,7 +117,7 @@ WINPREFIX=~/.wine_ml11 wine regedit
 ```
 在弹出的窗口中定位到`HKEY_LOCAL_MACHINE->System->CurrentControlSet->Control->Session Manager->Environment`
 
- ![](/attachments/masm-install/masm-install-13.png)
+ ![](../../static/img/masm-install/masm-install-13.png)
  
  
 在PATH的值后面加上`;C:\masm32\bin`
@@ -166,36 +166,36 @@ export WINEPREFIX=~/.wine_ml11(改为你的目录）
 ```bash
 wine ml /c Hello.asm
 ```
- ![](/attachments/masm-install/masm-install-14.png)
+ ![](../../static/img/masm-install/masm-install-14.png)
 编译后会生成Hello.obj文件
 
 - 链接Hello.obj
 ```bash
 wine link Hello.obj
 ```
-  ![](/attachments/masm-install/masm-install-15.png)
+  ![](../../static/img/masm-install/masm-install-15.png)
 链接报错，`fatal error LNK1123: failure during conversion to COFF: file invalid or corrupt`，使用link16进行链接可解决
 
-  ![](/attachments/masm-install/masm-install-16.png)
+  ![](../../static/img/masm-install/masm-install-16.png)
 链接成功。
 
 - 运行Hello.exe
 ```bash
 wine Hello.exe
 ```
-  ![](/attachments/masm-install/masm-install-17.png)
+  ![](../../static/img/masm-install/masm-install-17.png)
 提示需要安装dosbox
 安装dosbox：
 ```bash
 sudo pacman -S dosbox
 ```
   命令运行dosbox：
-![](/attachments/masm-install/masm-install-18.png)
+![](../../static/img/masm-install/masm-install-18.png)
 挂载当前目录为C：
-![](/attachments/masm-install/masm-install-19.png)
+![](../../static/img/masm-install/masm-install-19.png)
 
 - 切换到`C：`并运行Hello.exe
-![](/attachments/masm-install/masm-install-20.png)
+![](../../static/img/masm-install/masm-install-20.png)
 搞定！
 
 ### 补充

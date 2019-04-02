@@ -261,7 +261,7 @@ clean:
 make run
 ```
 运行结果：
-![](/attachments/CoolOS/CoolOS-hello_world/result.png)
+![](../../static/img/CoolOS/CoolOS-hello_world/result.png)
 
 最后，来看一下上面那段标准`FAT12`格式软盘专用的代码到底是干嘛的。
 执行：

@@ -24,13 +24,13 @@ draft: false
 
 <!--more-->
 
-![New Project](/attachments/Spring/HelloWorld/Spring_HelloWorld_create_new_project.png)
+![New Project](../../static/img/Spring/HelloWorld/Spring_HelloWorld_create_new_project.png)
 
 #### 设置项目名
 
 设置项目名为`HelloWorld` 。
 
-![Add Name](/attachments/Spring/HelloWorld/Spring_HelloWorld_create_new_project_add_name.png)
+![Add Name](../../static/img/Spring/HelloWorld/Spring_HelloWorld_create_new_project_add_name.png)
 
 #### 添加代码
 
@@ -38,7 +38,7 @@ draft: false
 
 在`src`文件夹下新建`me.coolcodes`包。
 
-![add new package](/attachments/Spring/HelloWorld/add_new_package.png)
+![add new package](../../static/img/Spring/HelloWorld/add_new_package.png)
 
 ##### 添加`HelloWorld.java`类
 
@@ -111,10 +111,10 @@ public class Main {
 
 添加一个新的`Application`配置，配置`Main`类
 
-![run_config](/attachments/Spring/HelloWorld/run_config.png)
+![run_config](../../static/img/Spring/HelloWorld/run_config.png)
 
 #### 结果
 
 如前面所说，最后输出结果为`Hello World!`
 
-![result](/attachments/Spring/HelloWorld/result.png)
+![result](../../static/img/Spring/HelloWorld/result.png)

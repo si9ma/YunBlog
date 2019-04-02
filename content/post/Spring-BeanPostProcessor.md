@@ -16,7 +16,7 @@ draft: false
 
 ### 工作原理
 
-![BeanPostProcessor_how_works](/attachments/Spring/BeanPostProcessor/BeanPostProcessor_how_works.svg)
+![BeanPostProcessor_how_works](../../static/img/Spring/BeanPostProcessor/BeanPostProcessor_how_works.svg)
 
 <!--more-->
 
@@ -24,7 +24,7 @@ draft: false
 
 #### 目录结构
 
-![project_tree](/attachments/Spring/BeanPostProcessor/project_tree.png)
+![project_tree](../../static/img/Spring/BeanPostProcessor/project_tree.png)
 
 #### Code
 
@@ -123,4 +123,4 @@ public class Main {
 
 ### 结果
 
-![result](/attachments/Spring/BeanPostProcessor/result.png)
+![result](../../static/img/Spring/BeanPostProcessor/result.png)

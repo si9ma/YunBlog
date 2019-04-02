@@ -67,16 +67,16 @@ sudo insmod hello.ko
 ```bash
 sudo dmesg
 ```
-![](/attachments/linux-modules/linux-modules-1.png)
+![](../../static/img/linux-modules/linux-modules-1.png)
 
 `使用lsmod查看已经加载的模块：`
 ```bash
 lsmod | grep hello
 ```
-![](/attachments/linux-modules/linux-modules-2.png)
+![](../../static/img/linux-modules/linux-modules-2.png)
 `卸载模块：`
 ```bash
 sudo rmmod hello
 sudo dmesg
 ```
-![](/attachments/linux-modules/linux-modules-3.png)
+![](../../static/img/linux-modules/linux-modules-3.png)

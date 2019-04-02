@@ -22,7 +22,7 @@ draft: false
 
 ## 使用SSH访问内网
 
-![未命名文件.png](/attachments/0d9da5fe.png)
+![未命名文件.png](../../static/img/0d9da5fe.png)
 
 ### 目标机器B
 
@@ -75,7 +75,7 @@ ssh root@vps_ip -p 222
 
 ### 登录目标机器B
 
-{{< sizeimg src="/attachments/719f652e.png" size="50" >}}
+{{< sizeimg src="../../static/img/719f652e.png" size="50" >}}
 
 <!-- @startuml
 start
@@ -95,7 +95,7 @@ stop
 
 ### 访问机器B内网网站
 
-{{< sizeimg src="/attachments/032da313.png" size="60" >}}
+{{< sizeimg src="../../static/img/032da313.png" size="60" >}}
 
 <!--@startuml
 start

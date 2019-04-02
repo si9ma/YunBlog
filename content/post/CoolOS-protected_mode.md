@@ -267,10 +267,10 @@ enable_A20:
 
 在我测试的过程中，我发现，`QEMU`的`BIOS`是默认开启`A20`的，`Virtualbox`的`BIOS`是默认不开启`A20`的,详细看图。
 `QEMU:`
-![](/attachments/CoolOS/CoolOS-protected_mode/enable_a20_qemu.png)
+![](../../static/img/CoolOS/CoolOS-protected_mode/enable_a20_qemu.png)
 
 `VirtualBox`:
-![](/attachments/CoolOS/CoolOS-protected_mode/enable_a20_virtualbox.png)
+![](../../static/img/CoolOS/CoolOS-protected_mode/enable_a20_virtualbox.png)
 
 #### 保护模式切换
 
@@ -438,7 +438,7 @@ make run
 ```
 
 运行结果:
-![](/attachments/CoolOS/CoolOS-protected_mode/result.png)
+![](../../static/img/CoolOS/CoolOS-protected_mode/result.png)
 
 注:完整代码在我的**[Github](https://github.com/si9ma/CoolOS/tree/master/01_ProtectedMode)**上
 

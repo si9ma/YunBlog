@@ -12,7 +12,7 @@ draft: false
 
 ### 什么是依赖注入
 
-![DependencyInjection](/attachments/Spring/DependencyInjection/DependencyInjection.svg)
+![DependencyInjection](../../static/img/Spring/DependencyInjection/DependencyInjection.svg)
 
 面向对象中，系统功能都是通过一系列对象之间的协作完成的。为了降低系统的复杂度，增加代码的复用性，方便测试。应该尽量降低类与类之间的关联度，降低耦合度。类与类之间的关联很多时候是不可避免的。如上图，如果A依赖于B，那么A中的b对象应该怎么实例化呢？两种方法：
 
@@ -54,11 +54,11 @@ draft: false
 
 ##### 类图
 
-![classDiagram](/attachments/Spring/DependencyInjection/classDiagram.svg)
+![classDiagram](../../static/img/Spring/DependencyInjection/classDiagram.svg)
 
 ##### 目录结构
 
-![constructor_project_tree](/attachments/Spring/DependencyInjection/constructor_project_tree.png)
+![constructor_project_tree](../../static/img/Spring/DependencyInjection/constructor_project_tree.png)
 
 ##### Code
 
@@ -142,7 +142,7 @@ public class Main {
 
 ##### 结果
 
-![result](/attachments/Spring/DependencyInjection/result.png)
+![result](../../static/img/Spring/DependencyInjection/result.png)
 
 ### 通过set方法实现
 
@@ -172,11 +172,11 @@ public class Main {
 
 ##### 类图
 
-![classDiagram](/attachments/Spring/DependencyInjection/classDiagram.svg)
+![classDiagram](../../static/img/Spring/DependencyInjection/classDiagram.svg)
 
 ##### 目录结构
 
-![project_tree](/attachments/Spring/DependencyInjection/project_tree.png)
+![project_tree](../../static/img/Spring/DependencyInjection/project_tree.png)
 
 ##### Code
 
@@ -262,7 +262,7 @@ public class Main {
 
 ##### 结果
 
-![result](/attachments/Spring/DependencyInjection/result.png)
+![result](../../static/img/Spring/DependencyInjection/result.png)
 
 ### 总结
 
