@@ -3,7 +3,7 @@ title: 编写一个简单的Linux可加载内核模块
 date: 2017-04-05T23:00:00+08:00
 description: "编写Linux可加载内核模块"
 categories: ["Linux"]
-featuredImage: "attachments/linux-1-800x420.jpg"
+featuredImage: "/img/linux-1-800x420.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

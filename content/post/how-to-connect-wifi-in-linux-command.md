@@ -3,7 +3,7 @@ title: 怎么在Linux使用命令行连接WIFI
 date: 2018-03-15T19:00:02+08:00
 description: "在Linux命令行中连接WIFI"
 categories: ["Linux"]
-featuredImage: "attachments/linux-1-800x420.jpg"
+featuredImage: "/img/linux-1-800x420.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

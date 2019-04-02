@@ -3,7 +3,7 @@ title: 在linux上通过wine使用MASM汇编器
 date: 2017-03-13T22:00:00+08:00
 description: "在Linux上安装MASM"
 categories: ["Linux"]
-featuredImage: "attachments/linux-1-800x420.jpg"
+featuredImage: "/img/linux-1-800x420.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

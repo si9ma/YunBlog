@@ -3,7 +3,7 @@ title: Learn Spring - Bean配置继承(配置重用)
 date: 2018-01-19T14:30:00+08:00
 description: "Spring Bean配置继承学习"
 categories: ["Spring"]
-featuredImage: "attachments/spring-by-pivotal.png"
+featuredImage: "/img/spring-by-pivotal.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

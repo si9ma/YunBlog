@@ -3,7 +3,7 @@ title: 自制操作系统(CoolOS) - Plan
 date: 2017-08-08T13:40:09+08:00
 description: "自制操作系统，Plan"
 categories: ["CoolOS"]
-featuredImage: "attachments/operating-system.jpg"
+featuredImage: "/img/operating-system.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

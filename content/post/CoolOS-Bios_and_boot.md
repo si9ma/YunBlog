@@ -3,7 +3,7 @@ title: 自制操作系统(CoolOS) - 操作系统启动过程与BIOS
 date: 2017-08-09T09:25:40+08:00
 description: "自制操作系统，BIOS和BOOT部分，讲解了计算机的Bios启动过程"
 categories: ["CoolOS"]
-featuredImage: "attachments/bios.jpeg"
+featuredImage: "/img/bios.jpeg"
 dropCap: true
 displayInMenu: false
 displayInList: true

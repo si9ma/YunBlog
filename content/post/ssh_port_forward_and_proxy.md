@@ -3,7 +3,7 @@ title: 通过SSH登录内网机器和访问内网网站
 date: 2018-12-28T22:48:48+08:00
 description: "SSH穿越学习"
 categories: ["Tool"]
-featuredImage: "attachments/ssh.jpg"
+featuredImage: "/img/ssh.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

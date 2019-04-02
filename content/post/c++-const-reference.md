@@ -3,7 +3,7 @@ title: C++之const引用
 date: 2018-09-09T08:00:00+08:00
 description: "C++ const引用学习"
 categories: ["C++"]
-featuredImage: "attachments/product_10337_product_shot_wide_image.jpg"
+featuredImage: "/img/product_10337_product_shot_wide_image.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

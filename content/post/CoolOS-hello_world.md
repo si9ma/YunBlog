@@ -3,7 +3,7 @@ title: 自制操作系统(CoolOS) - Hello World
 date: 2017-08-11T10:38:05+08:00
 description: "自制操作系统，使用BIOS在屏幕上打印出Hello World"
 categories: ["CoolOS"]
-featuredImage: "attachments/hello-world.jpg"
+featuredImage: "/img/hello-world.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

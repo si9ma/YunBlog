@@ -3,7 +3,7 @@ title: Archlinux-Installer使用教程
 date: 2018-03-15T14:00:00+08:00
 description: "Archlinux-Installer为ArchLinux快速安装脚本，支持配置备份，支持环境快速恢复"
 categories: ["Linux"]
-featuredImage: "attachments/archlinux-logo-black-1200dpi.94d8489023b3.png"
+featuredImage: "/img/archlinux-logo-black-1200dpi.94d8489023b3.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

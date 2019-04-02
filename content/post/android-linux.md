@@ -3,7 +3,7 @@ title: 在安卓设备上部署安装Linux
 date: 2017-02-26T03:00:02+08:00
 description: "第一篇博文，教你如何在安卓设备上安装一个迷你Linux"
 categories: ["Linux"]
-featuredImage: "attachments/android-apps-on-linux.jpg"
+featuredImage: "/img/android-apps-on-linux.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

@@ -3,7 +3,7 @@ title: Gnome桌面常用快捷键总结
 date: 2017-03-16T19:00:02+08:00
 description: "Gnome桌面系统，个人常用快捷键总结"
 categories: ["Linux"]
-featuredImage: "attachments/GnomeLogoHorizontal-1080x408.png"
+featuredImage: "/img/GnomeLogoHorizontal-1080x408.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

@@ -3,7 +3,7 @@ title: C++赋值问题之不要使用创建临时对象的方式修改包含动�
 date: 2018-09-30T21:39:28+08:00
 description: "C++赋值问题"
 categories: ["C++"]
-featuredImage: "attachments/product_10337_product_shot_wide_image.jpg"
+featuredImage: "/img/product_10337_product_shot_wide_image.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

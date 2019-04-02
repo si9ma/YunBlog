@@ -3,7 +3,7 @@ title: linux构建静态库并测试
 date: 2017-04-17T23:00:00+08:00
 description: "编写Linux静态库"
 categories: ["Linux"]
-featuredImage: "attachments/linux-1-800x420.jpg"
+featuredImage: "/img/linux-1-800x420.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

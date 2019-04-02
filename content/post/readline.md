@@ -3,7 +3,7 @@ title: Linux中的Readline
 date: 2018-02-02T11:44:00+08:00
 description: "Linux中的Readline学习"
 categories: ["Linux"]
-featuredImage: "attachments/linux-1-800x420.jpg"
+featuredImage: "/img/linux-1-800x420.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

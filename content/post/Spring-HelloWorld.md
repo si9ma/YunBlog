@@ -3,7 +3,7 @@ title: Learn Spring - HelloWorld
 date: 2018-01-17T14:20:00+08:00
 description: "Spring HelloWorld"
 categories: ["Spring"]
-featuredImage: "attachments/spring-by-pivotal.png"
+featuredImage: "/img/spring-by-pivotal.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

@@ -3,7 +3,7 @@ title: Learn Spring - BeanPostProcessor
 date: 2018-01-18T16:30:00+08:00
 description: "Spring BeanPostProcessor"
 categories: ["Spring"]
-featuredImage: "attachments/spring-by-pivotal.png"
+featuredImage: "/img/spring-by-pivotal.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

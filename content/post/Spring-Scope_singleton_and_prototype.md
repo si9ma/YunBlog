@@ -3,7 +3,7 @@ title: Learn Spring - Bean Scope属性之singleton和prototype
 date: 2018-01-17T16:30:00+08:00
 description: "Spring Bean Scope属性"
 categories: ["Spring"]
-featuredImage: "attachments/spring-by-pivotal.png"
+featuredImage: "/img/spring-by-pivotal.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

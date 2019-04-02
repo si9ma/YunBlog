@@ -3,7 +3,7 @@ title: 自制操作系统(CoolOS) - 切换到保护模式并连接C语言
 date: 2017-08-15T15:55:07+08:00
 description: "自制操作系统，切换到保护模式，使用C语言编写代码"
 categories: ["CoolOS"]
-featuredImage: "attachments/operating-system.jpg"
+featuredImage: "/img/operating-system.jpg"
 dropCap: true
 displayInMenu: false
 displayInList: true

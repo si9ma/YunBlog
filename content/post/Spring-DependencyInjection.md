@@ -3,7 +3,7 @@ title: Learn Spring - 依赖注入(Dependency Injection)
 date: 2018-01-19T17:30:00+08:00
 description: "Spring 依赖注入"
 categories: ["Spring"]
-featuredImage: "attachments/spring-by-pivotal.png"
+featuredImage: "/img/spring-by-pivotal.png"
 dropCap: true
 displayInMenu: false
 displayInList: true

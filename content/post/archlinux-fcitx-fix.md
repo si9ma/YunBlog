@@ -3,7 +3,7 @@ title: Archlinux下的中文输入法问题
 date: 2017-04-21T23:00:00+08:00
 description: "ArchLinux下搜狗输入法问题解决"
 categories: ["Linux"]
-featuredImage: "attachments/archlinux-logo-black-1200dpi.94d8489023b3.png"
+featuredImage: "/img/archlinux-logo-black-1200dpi.94d8489023b3.png"
 dropCap: true
 displayInMenu: false
 displayInList: true
