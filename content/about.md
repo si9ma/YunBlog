@@ -10,6 +10,7 @@ dropCap = false
 
 <!-- status -->
 {{< oneline >}}
+    {{< htmlimg src="https://img.shields.io/badge/si9ma's-wiki-lightgrey.svg" href="https://wiki.si9ma.com">}}
     {{< htmlimg src="https://img.shields.io/badge/github-si9ma-red.svg" href="https://github.com/si9ma">}}
     {{< htmlimg src="https://img.shields.io/badge/email-si9may%40tom.com-green.svg" href="mailto:si9may@tom.com">}}
     {{< htmlimg src="https://img.shields.io/badge/learn-ing-green.svg" href="">}}
