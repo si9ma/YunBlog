@@ -25,4 +25,4 @@ before_script:
 # script - run the build script
 script:
   - bash ./preprocess.sh
-  - set -xv && hugo && cd public && git init && git add -A && git commit -m 'deploy' && git push -f "https://${GITHUB_TOKEN}@github.com/si9ma/YunBlog.git" master:gh-pages && cd -
+  - set -xv && hugo && cp CNAME public && cd public && git init && git add -A && git commit -m 'deploy' && git push -f "https://${GITHUB_TOKEN}@github.com/si9ma/YunBlog.git" master:gh-pages && cd -
