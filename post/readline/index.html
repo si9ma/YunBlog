@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Linux中的Readline &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="Linux中的Readline学习" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Linux中的Readline</h1>
+          <p class="post-date">Posted <time datetime="2018-02-02">Feb 2, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/linux-1-800x420.jpg">
+          <img src="https://www.si9ma.com/img/linux-1-800x420.jpg" >
+        </picture>
+        
+        <h3 id="什么是readline">什么是Readline</h3>
+<p>今天在弄<code>MATLAB</code>命令行的过程中，了解到了有这么个东西的存在。那什么是<code>Readline</code>呢？</p>
+<p>准确的说应该是<code>GNU Readline</code>。在Linux的世界中，命令行界面是无处不在。很多应用程序都提供了自己的交互式命令行界面，也就是说需要用户敲入命令/数据，然后应用程序给出结果。我们需要手动敲入命令，输入即编辑。说到编辑，最简单的方式就是手动输入，如果有错误，就用退格键删除，重新输入。那么问题来了，我想自动补全怎么整？我想快速输入以前输入过的命令怎么整？我想搜索输入历史怎么整？&hellip;。<code>GNU Readline</code>就是干这个的。</p>
+<p><code>GNU Readline</code>是一个库,其通过命令行界面（如Bash）为交互式程序提供行编辑和历史功能。其实<code>GNU Readline</code>就相当于一个变相的、迷你的编辑器。</p>
+<!-- raw HTML omitted -->
+<h3 id="readline使用">Readline使用</h3>
+<p><code>GNU Readline</code>有两种编辑模式，即Emacs和vi编辑模式。默认的应该是Emacs编辑模式,但在vi的插入模式下Emacs的一些快捷键也是可以使用的,比如<code>Ctrl+H</code>删除一个字符。</p>
+<p><code>GNU Readline</code>的配置文件为<code>/etc/inputrc</code>(系统)和<code>~/.inputrc</code>(用户)。通过修改配置来更改<code>GNU Readline</code>的行为，比如编辑模式等。通过统一的配置文件，可以控制所有使用了 <code>GNU Readline</code>库的命令行应用的编辑方式。比如，作为一个<code>VIM</code>党，我想在所有的命令行中使用<code>VIM</code>。我只需要配置<code>GNU Readline</code>的编辑模式为vi，我就可以在所有使用了<code>GNU Readline</code>库的命令行应用中使用<code>VIM</code>来输入命令。使用了<code>GNU Readline</code>库的应用有比如<code>Bash</code>、<code>Mysql</code>的命令行界面等。</p>
+<p><code>GNU Readline</code>的配置可以参考  <a href="https://wiki.archlinux.org/index.php/readline">Archlinux Wiki</a></p>
+<h3 id="rlwrap">rlwrap</h3>
+<p>如前面所说，有了<code>GNU Readline</code>库，就可以在使用了<code>GNU Readline</code>库的命令行应用中使用<code>VIM</code>。那么，问题来了。 面对没有使用<code>GNU Readline</code>库的命令行应用,我们应该怎么整？答案就是使用<code>rlwrap</code>。</p>
+<p><code>rlwrap</code>即<code>Readline wrapper</code>。它可以让任何一个命令行应用支持<code>GNU Readline</code>。其大致原理为，封装命令行应用的输入和输出，然后控制用户的输入使用<code>GNU Readline</code>，然后再把用户输入的命令传给应用程序。相当于为命令行应用提供了一个可以使用<code>GNU Readline</code>库的前台。</p>
+<p>安装(Archlinux):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo pacman -S rlwrap
+</code></pre></div><p>使用例子(MATLAB):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rlwrap -a -c -m<span style="color:#e6db74">&#39; \ &#39;</span> -H ~/.matlab/R2017b/history.m matlab -nodesktop -nosplash -nodisplay
+</code></pre></div><ul>
+<li><code>-a</code>:交互式命令行应用需要该参数</li>
+<li><code>-c</code>:这个不太懂~</li>
+<li><code>-m'\'</code>:支持多行输入，使用<code>\</code>表示换行</li>
+<li><code>-H ~/.matlab/R2017b/history.m</code>:将历史命令保存到文件中，并从文件中读取历史记录</li>
+</ul>
+<p>通过上面的命令就可以在<code>MATLAB</code>命令行中使用<code>GNU Readline</code>了。</p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/spring-dependencyinjection/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/spring-by-pivotal.png">
+        <img src="https://www.si9ma.com/img/spring-by-pivotal.png" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">Learn Spring - 依赖注入(Dependency Injection)</h2>
+    <p class="card-text">Spring 依赖注入</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-01-19 119:00">Jan 19, 2018</time></p>
+      <p>#Spring </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

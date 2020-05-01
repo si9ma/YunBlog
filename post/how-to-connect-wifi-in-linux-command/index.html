@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>怎么在Linux使用命令行连接WIFI &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="在Linux命令行中连接WIFI" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">怎么在Linux使用命令行连接WIFI</h1>
+          <p class="post-date">Posted <time datetime="2018-03-15">Mar 15, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/linux-1-800x420.jpg">
+          <img src="https://www.si9ma.com/img/linux-1-800x420.jpg" >
+        </picture>
+        
+        <h3 id="工具">工具</h3>
+<ul>
+<li>wpa_supplicant</li>
+<li>dhclient</li>
+</ul>
+<h3 id="找出网卡设备名称">找出网卡设备名称</h3>
+<p>使用以下命令获取WIFI网卡名称：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /proc/net/wireless | perl -ne <span style="color:#e6db74">&#39;/(\w+):/ &amp;&amp; print $1&#39;</span>
+</code></pre></div><!-- raw HTML omitted -->
+<h3 id="启用无线网卡">启用无线网卡</h3>
+<p>使用以下命令启用无线网卡:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip link set wlan0 up
+</code></pre></div><p><code>wlan0</code>为网卡名称，请自行替换。</p>
+<h3 id="设置密码">设置密码</h3>
+<p>在<code>/etc/wpa_supplicant.conf</code>中填入一下内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">network<span style="color:#f92672">={</span>
+    ssid<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ssid_name&#34;</span>
+    psk<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>如果是使用<code>PEAP</code>认证的WIFI，请填入一下内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">network<span style="color:#f92672">={</span>
+  ssid<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;YOUR_SSID&#34;</span>
+  scan_ssid<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+  key_mgmt<span style="color:#f92672">=</span>WPA-EAP
+  identity<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;YOUR_USERNAME&#34;</span>
+  password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;YOUR_PASSWORD&#34;</span>
+  eap<span style="color:#f92672">=</span>PEAP
+  phase1<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;peaplabel=0&#34;</span>
+  phase2<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;auth=MSCHAPV2&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="连接wifi">连接WIFI</h3>
+<p>输入命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo wpa_supplicant -B -iwlan0 -c/etc/wpa_supplicant.conf -Dwext
+sudo dhclient wlan0
+</code></pre></div><p><code>wlan0</code>为网卡名称，请自行替换。</p>
+<h3 id="测试">测试</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ping www.baidu.com
+</code></pre></div><hr>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/archlinux-installer/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/archlinux-logo-black-1200dpi.94d8489023b3.png">
+        <img src="https://www.si9ma.com/img/archlinux-logo-black-1200dpi.94d8489023b3.png" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">Archlinux-Installer使用教程</h2>
+    <p class="card-text">Archlinux-Installer为ArchLinux快速安装脚本，支持配置备份，支持环境快速恢复</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-03-15 315:00">Mar 15, 2018</time></p>
+      <p>#Linux </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

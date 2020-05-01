@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Learn Spring - Bean配置继承(配置重用) &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="Spring Bean配置继承学习" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Learn Spring - Bean配置继承(配置重用)</h1>
+          <p class="post-date">Posted <time datetime="2018-01-19">Jan 19, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/spring-by-pivotal.png">
+          <img src="https://www.si9ma.com/img/spring-by-pivotal.png" >
+        </picture>
+        
+        <h3 id="关于bean配置继承">关于Bean配置继承</h3>
+<p>为了<code>Bean</code>配置的复用，<code>Spring</code>中有<code>Bean</code>配置继承的概念。通过<code>parent</code>属性标识从哪个<code>Bean</code>继承配置信息。类似于面向对象里的概念，子<code>Bean</code>可以覆盖父<code>Bean</code>的配置。还可以设置<code>Bean</code>配置的 <code>abstract</code>属性为<code>true</code>，将该<code>Bean</code>设置为一个模板，其它<code>Bean</code>继承它的模板配置。类似于<code>Java</code>中的抽象类，<code>abstract</code>的<code>Bean</code>不允许实例化。</p>
+<h3 id="example">Example</h3>
+<h4 id="目录结构">目录结构</h4>
+<p><img src="https://www.si9ma.com/img/Spring/BeanInheritance/project_tree.png" alt="project_tree"></p>
+<h4 id="code">Code</h4>
+<h5 id="beansxml">Beans.xml</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version = &#34;1.0&#34; encoding = &#34;UTF-8&#34;?&gt;</span>
+
+<span style="color:#f92672">&lt;beans</span> <span style="color:#a6e22e">xmlns =</span> <span style="color:#e6db74">&#34;http://www.springframework.org/schema/beans&#34;</span>
+       <span style="color:#a6e22e">xmlns:xsi =</span> <span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+       <span style="color:#a6e22e">xsi:schemaLocation =</span> <span style="color:#e6db74">&#34;http://www.springframework.org/schema/beans
+</span><span style="color:#e6db74">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id =</span> <span style="color:#e6db74">&#34;helloWorld&#34;</span> <span style="color:#a6e22e">class =</span> <span style="color:#e6db74">&#34;me.coolcodes.HelloWorld&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name =</span> <span style="color:#e6db74">&#34;message1&#34;</span> <span style="color:#a6e22e">value =</span> <span style="color:#e6db74">&#34;Message1&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name =</span> <span style="color:#e6db74">&#34;message2&#34;</span> <span style="color:#a6e22e">value =</span> <span style="color:#e6db74">&#34;Message2&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/bean&gt;</span>
+
+    <span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;helloSpring&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;me.coolcodes.HelloSpring&#34;</span> <span style="color:#a6e22e">parent=</span><span style="color:#e6db74">&#34;helloWorld&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name =</span> <span style="color:#e6db74">&#34;message3&#34;</span> <span style="color:#a6e22e">value =</span> <span style="color:#e6db74">&#34;Message3&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name =</span> <span style="color:#e6db74">&#34;message4&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;Message4&#34;</span><span style="color:#f92672">&gt;&lt;/property&gt;</span>
+    <span style="color:#f92672">&lt;/bean&gt;</span>
+
+<span style="color:#f92672">&lt;/beans&gt;</span>
+</code></pre></div><p><code>helloSpring</code>继承了<code>helloWorld</code>的配置（即<code>message1</code> 和 <code>message2</code>)</p>
+<h5 id="helloworldjava">HelloWorld.java</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> me.coolcodes<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorld</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String message1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String message2<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage1</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message1</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage2</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message2</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage1</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;World Message : &#34;</span> <span style="color:#f92672">+</span> message1<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage2</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;World Message : &#34;</span> <span style="color:#f92672">+</span> message2<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h5 id="hellospringjava">HelloSpring.java</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> me.coolcodes<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloSpring</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String message1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String message2<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String message3<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String message4<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage1</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message1</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage2</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message2</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage3</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message3</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage4</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message4</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage1</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Spring Message : &#34;</span> <span style="color:#f92672">+</span> message1<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage2</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Spring Message : &#34;</span> <span style="color:#f92672">+</span> message2<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage3</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Spring Message : &#34;</span> <span style="color:#f92672">+</span> message3<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage4</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Spring Message : &#34;</span> <span style="color:#f92672">+</span> message4<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h5 id="mainjava">Main.java</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> me.coolcodes<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> org.springframework.context.support.AbstractApplicationContext<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.support.ClassPathXmlApplicationContext<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        AbstractApplicationContext context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassPathXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Beans.xml&#34;</span><span style="color:#f92672">);</span>
+        HelloWorld objA <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HelloWorld<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;helloWorld&#34;</span><span style="color:#f92672">);</span>
+        HelloSpring objB <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HelloSpring<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;helloSpring&#34;</span><span style="color:#f92672">);</span>
+
+        objA<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage1</span><span style="color:#f92672">();</span>
+        objA<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage2</span><span style="color:#f92672">();</span>
+
+        objB<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage1</span><span style="color:#f92672">();</span>
+        objB<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage2</span><span style="color:#f92672">();</span>
+        objB<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage3</span><span style="color:#f92672">();</span>
+        objB<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage4</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>分别输出<code>HelloWorld</code>的<code>message1</code> 和 <code>message2</code>。<code>HelloSpring</code>的<code>message1</code>、<code>message2</code>、<code>message3</code>、<code>message4</code>。</p>
+<h4 id="结果">结果</h4>
+<p><img src="https://www.si9ma.com/img/Spring/BeanInheritance/result.png" alt="result"></p>
+<p><code>HelloSpring</code>的<code>message1</code>和<code>message2</code>的值继承自<code>HelloWorld</code>。</p>
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/spring-beanpostprocessor/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/spring-by-pivotal.png">
+        <img src="https://www.si9ma.com/img/spring-by-pivotal.png" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">Learn Spring - BeanPostProcessor</h2>
+    <p class="card-text">Spring BeanPostProcessor</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-01-18 118:00">Jan 18, 2018</time></p>
+      <p>#Spring </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

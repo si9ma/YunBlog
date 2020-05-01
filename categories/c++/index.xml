@@ -1,0 +1,40 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/categories/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 30 Sep 2018 21:39:28 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/categories/c++/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>C&#43;&#43;赋值问题之不要使用创建临时对象的方式修改包含动态内存的对象</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-assign-problem/</link>
+      <pubDate>Sun, 30 Sep 2018 21:39:28 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-assign-problem/</guid>
+      <description>C++赋值问题</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;之const引用</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-const-reference/</link>
+      <pubDate>Sun, 09 Sep 2018 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-const-reference/</guid>
+      <description>C++ const引用学习</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;之引用</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-reference/</link>
+      <pubDate>Sun, 09 Sep 2018 07:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-reference/</guid>
+      <description>C++ 引用学习</description>
+    </item>
+    
+  </channel>
+</rss>

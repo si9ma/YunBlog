@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>通过SSH登录内网机器和访问内网网站 &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="SSH穿越学习" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">通过SSH登录内网机器和访问内网网站</h1>
+          <p class="post-date">Posted <time datetime="2018-12-28">Dec 28, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/ssh.jpg">
+          <img src="https://www.si9ma.com/img/ssh.jpg" >
+        </picture>
+        
+        <p>对于个人用户来说，大部分都是在NAT后面的，没有公共IP。无法直接从外网直接访问内网机器。SSH提供了端口转发功能，可以通过SSH端口转发实现内网的访问。</p>
+<h2 id="nat">NAT</h2>
+<p><code>NAT</code>主要是用于解决IPv4的IP不够用的问题，也就是多个内网IP对应一个公网IP。对于一个IP来说一共有65536个端口，可以这样做:<code>内网IP1:7843</code>的请求过来把它替换成<code>公网IP:88端口</code>去访问外部网站，<code>内网IP2:78778</code>的请求过来把它替换成<code>公网IP：82端口</code>去访问。这样就实现了一个公网IP的复用。<code>NAT</code>在内网机器和外网做了一个隔离，外网直接发起的连接并不会转发到内网机器。</p>
+<h2 id="ssh隧道">SSH隧道</h2>
+<p>要想外网访问内网其实很简单，就TCP来说，我内网主动发起一个TCP连接，然后内网机器和外网机器一直保持这个TCP连接，这样外网机器通过这个TCP连接是能连接上内网机器的。SSH就是基于TCP的，内网发起一个SSH请求，然后一直不断，就是一个持久的TCP连接。再配合SSH的端口转发就可以实现外网访问内网。</p>
+<h2 id="使用ssh访问内网">使用SSH访问内网</h2>
+<p><img src="https://www.si9ma.com/img/0d9da5fe.png" alt="SSH访问内网"></p>
+<h3 id="目标机器b">目标机器B</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh -fNCTR 223:localhost:22 root@vps_ip
+ssh -fNCTR 1080:localhost:8080 root@vps_ip
+</code></pre></div><p>参数:</p>
+<ul>
+<li><code>f</code>:后台运行</li>
+<li><code>N</code>:不要执行远程命令</li>
+<li><code>C</code>:压缩数据</li>
+<li><code>T</code>:不要进入远程终端</li>
+</ul>
+<p>向vps建立一个SSH连接，并且告诉vps上的SSH进行端口转发：<code>你本地223(1080)端口上的请求都转发到我的22(8080)端口上</code>
+<!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh -D <span style="color:#ae81ff">8080</span>  root@localhost
+</code></pre></div><p>在本地建8080端口上建立一个sock服务，sock服务用来代理http请求。</p>
+<h3 id="vps">VPS</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh -fNCTL *:222:localhost:223 root@localhost
+</code></pre></div><p>把来自任意IP的到222端口的数据转发到223端口</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">delegated -P8080 SERVER<span style="color:#f92672">=</span>https SOCKS<span style="color:#f92672">=</span>localhost:1080 ADMIN<span style="color:#f92672">=</span>foo@bar.baz PERMIT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*:*:*&#34;</span>
+</code></pre></div><p>delegated用于将https请求转换成sock请求,具体见<a href="http://www.delegate.org/delegate/">DeleGate</a></p>
+<h3 id="机器a">机器A</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh root@vps_ip -p <span style="color:#ae81ff">222</span>
+</code></pre></div><p>向vps的222端口发起一个ssh请求</p>
+<h3 id="浏览器">浏览器</h3>
+<p>在Chrome或Firefox中配置http代理为<code>http://vps_ip:8080</code></p>
+<h3 id="登录目标机器b">登录目标机器B</h3>
+<p align="center">
+    <img src="https://www.si9ma.com/img/719f652e.png" style="width:50%">
+</p>
+<h3 id="访问机器b内网网站">访问机器B内网网站</h3>
+<p align="center">
+    <img src="https://www.si9ma.com/img/032da313.png" style="width:60%">
+</p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/c&#43;&#43;-assign-problem/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/product_10337_product_shot_wide_image.jpg">
+        <img src="https://www.si9ma.com/img/product_10337_product_shot_wide_image.jpg" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">C&#43;&#43;赋值问题之不要使用创建临时对象的方式修改包含动态内存的对象</h2>
+    <p class="card-text">C&#43;&#43;赋值问题</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-09-30 930:00">Sep 30, 2018</time></p>
+      <p>#C&#43;&#43; </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

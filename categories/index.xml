@@ -1,0 +1,76 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/categories/</link>
+    <description>Recent content in Categories on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 04 Apr 2019 10:23:00 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux</title>
+      <link>https://www.si9ma.com/categories/linux/</link>
+      <pubDate>Thu, 04 Apr 2019 10:23:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CS</title>
+      <link>https://www.si9ma.com/categories/cs/</link>
+      <pubDate>Wed, 03 Apr 2019 19:33:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/cs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OS</title>
+      <link>https://www.si9ma.com/categories/os/</link>
+      <pubDate>Tue, 02 Apr 2019 21:11:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/os/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tool</title>
+      <link>https://www.si9ma.com/categories/tool/</link>
+      <pubDate>Fri, 28 Dec 2018 22:48:48 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/tool/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://www.si9ma.com/categories/c&#43;&#43;/</link>
+      <pubDate>Sun, 30 Sep 2018 21:39:28 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>https://www.si9ma.com/categories/spring/</link>
+      <pubDate>Fri, 19 Jan 2018 17:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CoolOS</title>
+      <link>https://www.si9ma.com/categories/coolos/</link>
+      <pubDate>Tue, 15 Aug 2017 15:55:07 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/categories/coolos/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

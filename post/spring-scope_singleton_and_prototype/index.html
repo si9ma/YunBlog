@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Learn Spring - Bean Scope属性之singleton和prototype &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="Spring Bean Scope属性" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Learn Spring - Bean Scope属性之singleton和prototype</h1>
+          <p class="post-date">Posted <time datetime="2018-01-17">Jan 17, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/spring-by-pivotal.png">
+          <img src="https://www.si9ma.com/img/spring-by-pivotal.png" >
+        </picture>
+        
+        <h3 id="scope属性">Scope属性</h3>
+<p><code>Spring Bean</code>配置中的<code>Scope</code>属性用于告诉<code>Ioc容器</code>创建<code>Bean</code>对象的范围，只能创建一个对象还是能够创建任意个对象。其值可以是<code>singleton</code>、<code>prototype</code>、<code>request</code>、<code>session</code>和<code>global-session</code>。<code>request</code>、<code>session</code>和<code>global-session</code>只有在web应用中才有效。这里只讲<code>prototype</code>和<code>singleton</code>。</p>
+<h3 id="singleton和prototype区别">singleton和prototype区别</h3>
+<table>
+<thead>
+<tr>
+<th>singleton</th>
+<th align="left">prototype</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只能创建一个Bean实例，Ioc容器会对创建的实例进行缓存，下次请求创建时，返回缓存的实例</td>
+<td align="left">可以创建任意个实例</td>
+</tr>
+<tr>
+<td>默认值</td>
+<td align="left">非默认值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="singleton">Singleton</h3>
+<h4 id="目录结构">目录结构</h4>
+<p><img src="https://www.si9ma.com/img/Spring/singleton_and_prototype/singleton_dir_tree.png" alt="singleton_dir_tree"></p>
+<h4 id="code">Code</h4>
+<h5 id="hellospringjava">HelloSpring.java</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> me.coolcodes<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloSpring</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String message<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span>  <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getMessage</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Your Message : &#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h5 id="mainjava">Main.java</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> me.coolcodes<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> org.springframework.context.ApplicationContext<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.support.ClassPathXmlApplicationContext<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ApplicationContext context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassPathXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Beans.xml&#34;</span><span style="color:#f92672">);</span>
+        HelloSpring objA <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HelloSpring<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;helloSpring&#34;</span><span style="color:#f92672">);</span>
+
+        objA<span style="color:#f92672">.</span><span style="color:#a6e22e">setMessage</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I am objA&#34;</span><span style="color:#f92672">);</span>
+        objA<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">();</span>
+
+        HelloSpring objB <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HelloSpring<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;helloSpring&#34;</span><span style="color:#f92672">);</span>
+        objB<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>先通过<code>getBean()</code>创建一个<code>objA</code>，设置<code>message</code>为<code>I am objA</code>。然后再通过<code>getBean()</code>创建一个<code>objB</code>。如果<code>objA</code>和<code>objB</code>是不同的对象，最后输出应该是<code>I am objA \n Hello World!</code>。反之，如果是同一个对象，最后输出应该是<code>I am objA \n I am objA</code>。</p>
+<h5 id="beansxml">Beans.xml</h5>
+<p>设置<code>scope</code>为<code>singleton</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version = &#34;1.0&#34; encoding = &#34;UTF-8&#34;?&gt;</span>
+
+<span style="color:#f92672">&lt;beans</span> <span style="color:#a6e22e">xmlns =</span> <span style="color:#e6db74">&#34;http://www.springframework.org/schema/beans&#34;</span>
+       <span style="color:#a6e22e">xmlns:xsi =</span> <span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+       <span style="color:#a6e22e">xsi:schemaLocation =</span> <span style="color:#e6db74">&#34;http://www.springframework.org/schema/beans
+</span><span style="color:#e6db74">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id =</span> <span style="color:#e6db74">&#34;helloSpring&#34;</span> <span style="color:#a6e22e">class =</span> <span style="color:#e6db74">&#34;me.coolcodes.HelloSpring&#34;</span> <span style="color:#a6e22e">scope=</span><span style="color:#e6db74">&#34;singleton&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name =</span> <span style="color:#e6db74">&#34;message&#34;</span> <span style="color:#a6e22e">value =</span> <span style="color:#e6db74">&#34;Hello World!&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/bean&gt;</span>
+
+<span style="color:#f92672">&lt;/beans&gt;</span>
+</code></pre></div><h5 id="结果">结果</h5>
+<p><img src="https://www.si9ma.com/img/Spring/singleton_and_prototype/singleton_result.png" alt="singleton_result"></p>
+<p>从结果可以看出，<code>objA</code>和<code>objB</code>是同一个对象。</p>
+<h3 id="prototype">Prototype</h3>
+<p>只需要将<code>Beans.xml</code>中<code>scope</code>的值改为<code>prototype</code></p>
+<h4 id="结果-1">结果</h4>
+<p><img src="https://www.si9ma.com/img/Spring/singleton_and_prototype/prototype_result.png" alt="prototype_result"></p>
+<p>从结果可以看出，<code>objA</code>和<code>objB</code>是不同的对象。</p>
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/spring-helloworld/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/spring-by-pivotal.png">
+        <img src="https://www.si9ma.com/img/spring-by-pivotal.png" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">Learn Spring - HelloWorld</h2>
+    <p class="card-text">Spring HelloWorld</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-01-17 117:00">Jan 17, 2018</time></p>
+      <p>#Spring </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

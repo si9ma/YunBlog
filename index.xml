@@ -1,0 +1,32 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>si9ma - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/</link>
+    <description>Recent content in si9ma on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 28 Jan 2019 09:46:15 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Posts</title>
+      <link>https://www.si9ma.com/post/</link>
+      <pubDate>Thu, 04 Apr 2019 10:23:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://www.si9ma.com/about/</link>
+      <pubDate>Mon, 28 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.si9ma.com/about/</guid>
+      <description>技术宅，喜欢Linux，ArchLinux忠实粉丝。。。
+ .oneline { padding: 0; margin-left: auto; margin-right: auto; margin-top: 20px; text-align: center; }   .image { height: auto; width: auto; vertical-align: middle; }    .image { height: auto; width: auto; vertical-align: middle; }    .image { height: auto; width: auto; vertical-align: middle; }    .image { height: auto; width: auto; vertical-align: middle; }    .image { height: auto; width: auto; vertical-align: middle; }    .</description>
+    </item>
+    
+  </channel>
+</rss>

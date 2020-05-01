@@ -1,0 +1,12 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/tags/</link>
+    <description>Recent content in Tags on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+        <atom:link href="https://www.si9ma.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>

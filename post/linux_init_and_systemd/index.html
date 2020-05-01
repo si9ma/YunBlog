@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Linux启动第一个进程之Init &amp; Systemd &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="Linux启动过程中的第一个进程,Init or Systemd" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Linux启动第一个进程之Init &amp; Systemd</h1>
+          <p class="post-date">Posted <time datetime="2019-04-04">Apr 4, 2019</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/SYSTEMD-e1434229775958.gif">
+          <img src="https://www.si9ma.com/img/SYSTEMD-e1434229775958.gif" >
+        </picture>
+        
+        <p>当初大学操作系统课程中，老师说Linux操作系统启动过程中的第一个进程是Init，Init进程id是1，后续的进程均是该进程的子进程。那现在还是这样吗？其实，至今大多数Linux发行版的Init进程已经被替换为Systemd。当然，Systemd进程的pid依然是1，后续的所有进程依然是Systemd的子进程。那是不是从Init到Systemd只是换了个名字呢？是不是只是重复造了个轮子呢？不是这样的，Systemd相较于Init，解决了Init的弊端，也新增了很多新的特性。</p>
+<h2 id="init-vs-systemd">Init VS Systemd</h2>
+<p><p align="center">
+    <img src="https://www.si9ma.com/img/init_vs_systemd_1.png" style="width:80%">
+</p>
+<p align="center">
+    <img src="https://www.si9ma.com/img/init_vs_systemd_2.png" style="width:80%">
+</p></p>
+<h2 id="systemd支持情况">Systemd支持情况</h2>
+<p align="center">
+    <img src="https://www.si9ma.com/img/systemd_support.png" style="width:80%">
+</p>
+<h2 id="example">Example</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pstree -p -g
+</code></pre></div><p><p align="center">
+    <img src="https://www.si9ma.com/img/systemd_1.png" style="width:80%">
+</p>
+<p align="center">
+    <img src="https://www.si9ma.com/img/systemd_2.png" style="width:80%">
+</p></p>
+<p>从上面两张图可以看出，systemd进程id和进程组id都是1，其他进程都是systemd的子进程。同时可以看到vscode(code进程)有很多子进程。第二张图显示了gnome桌面系统的情况，父进程是gdm(GNOME Display Manager)，Gnome下的UI应用均是gdm的子进程。</p>
+<h2 id="所有进程都是systemd的子进程吗">所有进程都是systemd的子进程吗</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ps axo pid,pgid,ppid,sid,command | sort -d -k2
+</code></pre></div><p align="center">
+    <img src="https://www.si9ma.com/img/kthreadd.png" style="width:50%">
+</p>
+<p>从上图可以看出，进程kthreadd(2)并不是systemd的子进程，kthreadd的ppid是0，表示kthreadd和systemd一样是一个顶层进程。同时可以看到，有不少进程都是kthreadd的子进程。kthreadd为kernel thread daemon,负责所有内核线程的调度和管理。</p>
+<hr>
+<ul>
+<li><a href="https://www.tecmint.com/systemd-replaces-init-in-linux/">The Story Behind ‘init’ and ‘systemd’: Why ‘init’ Needed to be Replaced with ‘systemd’ in Linux</a></li>
+<li><a href="http://www.linuxvox.com/post/what-is-the-kthreadd-process/">what is the [kthreadd] process?</a></li>
+</ul>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/computer_organization/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/maxresdefault.jpg">
+        <img src="https://www.si9ma.com/img/maxresdefault.jpg" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">计算机组织整理</h2>
+    <p class="card-text">整理常见的计算机组织</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-04-03 43:00">Apr 3, 2019</time></p>
+      <p>#CS </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

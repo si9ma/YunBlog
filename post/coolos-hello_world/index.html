@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>自制操作系统(CoolOS) - Hello World &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="自制操作系统，使用BIOS在屏幕上打印出Hello World" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">自制操作系统(CoolOS) - Hello World</h1>
+          <p class="post-date">Posted <time datetime="2017-08-11">Aug 11, 2017</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/hello-world.jpg">
+          <img src="https://www.si9ma.com/img/hello-world.jpg" >
+        </picture>
+        
+        <p>要写一个操作系统，应该从哪里开始呢？当然是启动。那么就先写一个简单的bootloader，让它能在启动的时候打印简单的字符串。</p>
+<h3 id="开始">开始</h3>
+<p>那么，用啥写呢？当然是汇编语言。</p>
+<p>要在启动的时候打印字符串，就得依赖于BIOS。BIOS是工作在实模式下的，所以我们写的汇编应该是16位汇编。</p>
+<pre><code class="language-x86asm" data-lang="x86asm">	[BITS 16]				; tell the assembler that its a 16 bit code
+	[ORG 0x7c00]			; tells the assembler that where the code will
+</code></pre><p><code>[BITS 16]</code>用来告诉汇编器这是16位代码。因为该部分代码（第一扇区）在启动时会被读到内存的<code>0x7c00</code>处。<code>[ORG 0x7c00]</code>就是用来告诉汇编器，这部分代码将会被读取到内存<code>0x7c00</code>处。所以汇编器在将代码翻译成机器码，计算地址时就会按照<code>0x7c00</code>来进行计算。只有这样，接下来的代码才会正确执行。</p>
+<!-- raw HTML omitted -->
+<p>接下来这段代码是标准<code>FAT12</code>格式软盘专用的代码 ：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">; Stand FAT12 format floppy code(Reference: http://wiki.osdev.org/FAT#FAT_12)
+; BPB (BIOS Parameter Block)
+
+	JMP		entry			; jump to entry
+	DB		0x90			; NOP
+	DB		&quot; CoolOS &quot;		; OEM identifier,must 8 bytes.
+	DW		512				; The number of Bytes per sector
+	DB		1				; Number of sectors per cluster.
+	DW		1				; Number of reserved sectors.
+	DB		2				; Number of File Allocation Tables (FAT's) on the storage media.(Often this value is 2)
+	DW		224				; Number of directory entries.
+	DW		2880			; The total sectors in the logical volume.
+	DB		0xf0			; This Byte indicates the media descriptor type.
+	DW		9				; Number of sectors per FAT.
+	DW		18				; Number of sectors per track.
+	DW		2				; Number of heads or sides on the storage media.
+	DD		0				; Number of hidden sectors.
+	DD		2880			; Large amount of sector on media.
+	DB		0				; Drive number.
+	DB		0				; Flags in Windows NT.
+	DB		0x29			; Signature (must be 0x28 or 0x29).
+	DD		0xffffffff		; VolumeID 'Serial' number.
+	DB		&quot;CoolOS     &quot;	; Volume label string,must 11 bytes.
+	DB		&quot;FAT12   &quot;		; System identifier string.must 8 bytest.
+</code></pre><p>详细可参考 <strong><a href="http://wiki.osdev.org/FAT#FAT_12">FAT - OSDev</a></strong>.
+需要注意的是，上面的<code>JMP entry</code>指令必须在最前，因为如果没有这一条跳转指令，接下来的一连串DB都是伪指令，是不能被执行的。这就会导致entry后面的所有指令都执行不到，那么这个bootloader当然也就不能正常启动咯。</p>
+<p>再接下来，就是真正的启动代码了。首先,我们需要初始化寄存器：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">; Init the register
+; BIOS have set CS to 0x0000,set IP to 0x7C00
+; We need to init SS and SP
+; There are almost 30 KiB at 0x00500~0x07BFF is guaranteed free for use,
+; So,set SS to 0x0000,set SP to 0x7c00,when we first push (SP-2)
+; Reference: http://wiki.osdev.org/Memory_Map_(x86)#Overview
+; Reference: https://en.wikipedia.org/wiki/BIOS#Boot_environment
+	MOV		AX,0
+	MOV		SS,AX
+	MOV		SP,0x7c00
+	MOV		DS,AX
+	MOV		SI,msg			; Move the message to SI
+</code></pre><p>在执行这一段代码前，BIOS已经将CS设置为了<code>0x0000</code>,IP设置为了<code>0x7c00</code>。接下来，我们需要初始化SS和SP,其实就是初始化堆栈，因为后面的INT中断的时候是需要用到堆栈的。通过参考**<a href="http://wiki.osdev.org/Memory_Map_(x86)#Overview">Memory_Map_(x86)</a>**,发现在<code>0x00500~0x07BFF</code>之间有大约30KIB的内存是供自由使用的，所以，设置SS为<code>0x0000</code>,SP为<code>0x7c00</code>。第一次压栈时，SP会变成<code>0x7BFE</code>。同时，初始化DS为<code>0x0000</code>。将需要打印的字符串的地址（即msg）保存到SI中，方便后续使用。</p>
+<p>紧接着，就到了打印字符串的时候了：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">putloop:
+	MOV		AL,[SI]
+	ADD		SI,1
+	CMP		AL,0
+	JE		fin				; Done!jump to fin
+	MOV		AH,0x0e			; Display a character
+	MOV		BX,15			; Color
+	INT		0x10			; Bios video display.Reference: http://www.ctyme.com/intr/rb-0106.htm
+	JMP		putloop
+</code></pre><p>循环将每个字符放到AL中，然后将SI的值加一，移到下一个字符，然后设置AH为<code>0x0e</code>，并调用<code>0x10</code>中断（参考**[Interrupt Jump Table](<a href="http://www.ctyme.com">http://www.ctyme.com</a>    /intr/rb-0106.htm)**),打印AL中的字符。一直到，AL中的值为0,即字符串打印结束。然后，跳转到<code>fin</code>进行无限循环。</p>
+<pre><code class="language-x86asm" data-lang="x86asm">; Infinite loop
+fin:
+	HLT						; Halt
+	JMP		fin				; Loop
+</code></pre><p>我们把需要打印的字符串放到最后：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">; Message
+msg:
+	DB		0x0a, 0x0a	    ; Two line feed
+	DB		&quot;************&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed.0x0d+0x0a==\n
+	DB		&quot;Hello World&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;This is CoolOS&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;Author: Cool&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;Blog: http://www.coolcodes.me&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;************&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		0				; End of String
+</code></pre><p>其中<code>0x0d</code>为回车，<code>0x0a</code>为换行。这里的回车和我们平时说的可不大一样，这里的回车相当于把光标移动到行首，但不换行。换行需要<code>0x0a</code>来干。它两需要一起使用，即<code>0x0d+0x0a</code>才相当于我们平时所说的回车。</p>
+<p>最后，我们需要把第一个扇区（512字节）给填满：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">	TIMES 510-($-$$) db 0   ; Fill the rest of sector with 0
+	DB	0x55, 0xaa          ; Add boot signature at the end of bootloader
+</code></pre><p>因为咋们上面的代码翻译成机器码后还不足512字节，所以剩下的需要用0来填,也就是<code>TIMES 510-($-$$) db 0</code>,这里的<code>TIMES</code>是伪指令(参考**<a href="http://www.nasm.us/doc/nasmdoc3.html#section-3.2.5">NASM - 3.2.5 TIMES</a>**),其实就是重复后面的指令或数据。这里就是重复<code>db 0</code>,重复多少次呢？重复<code>510-($-$$)</code>次。这里的<code>$</code>是指当前行行首的位置（相当于地址），而<code>$$</code>指当前<code>section</code>的位置（地址），在这里也就是整个代码的开始(参考**<a href="http://www.nasm.us/doc/nasmdoc3.html#section-3.5">NASM - 3.5 Expressions</a>**)。那么，<code>$-$$</code>也就是目前代码所占用的字节数。用510减去<code>$-$$</code>不就知道需要填多少0了。但注意到，上面是用510去减的，而不是512。因为最后两个字节不能为0。要想作为bootloader，需要最后两个字节为<code>0x55</code>和<code>0xaa</code>。不然，BIOS会认为不是这bootloader,它是不会尝试去执行上面的代码的。</p>
+<p>代码终于完了，下面贴一个完整的代码：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">; File: hello_world.asm
+; Author: si9ma
+; Blog: http://www.coolcodes.me
+; Mode: 16 bits
+; Syntax: NASM
+; Function: Print a &quot;hello&quot; message on the screen when boot
+
+	[BITS 16]				; tell the assembler that its a 16 bit code
+	[ORG 0x7c00]			; tells the assembler that where the code will
+
+; Stand FAT12 format floppy code(Reference: http://wiki.osdev.org/FAT#FAT_12)
+; BPB (BIOS Parameter Block)
+
+	JMP		entry			; jump to entry
+	DB		0x90			; NOP
+	DB		&quot; CoolOS &quot;		; OEM identifier,must 8 bytes.
+	DW		512				; The number of Bytes per sector
+	DB		1				; Number of sectors per cluster.
+	DW		1				; Number of reserved sectors.
+	DB		2				; Number of File Allocation Tables (FAT's) on the storage media.(Often this value is 2)
+	DW		224				; Number of directory entries.
+	DW		2880			; The total sectors in the logical volume.
+	DB		0xf0			; This Byte indicates the media descriptor type.
+	DW		9				; Number of sectors per FAT.
+	DW		18				; Number of sectors per track.
+	DW		2				; Number of heads or sides on the storage media.
+	DD		0				; Number of hidden sectors.
+	DD		2880			; Large amount of sector on media.
+	DB		0				; Drive number.
+	DB		0				; Flags in Windows NT.
+	DB		0x29			; Signature (must be 0x28 or 0x29).
+	DD		0xffffffff		; VolumeID 'Serial' number.
+	DB		&quot;CoolOS     &quot;	; Volume label string,must 11 bytes.
+	DB		&quot;FAT12   &quot;		; System identifier string.must 8 bytest.
+
+; Boot Code
+entry:
+
+; Init the register
+; BIOS have set CS to 0x0000,set IP to 0x7C00
+; We need to init SS and SP
+; There are almost 30 KiB at 0x00500~0x07BFF is guaranteed free for use,
+; So,set SS to 0x0000,set SP to 0x7c00,when we first push (SP-2)
+; Reference: http://wiki.osdev.org/Memory_Map_(x86)#Overview
+; Reference: https://en.wikipedia.org/wiki/BIOS#Boot_environment
+	MOV		AX,0
+	MOV		SS,AX
+	MOV		SP,0x7c00
+	MOV		DS,AX
+	MOV		SI,msg			; Move the message to SI
+
+putloop:
+	MOV		AL,[SI]
+	ADD		SI,1
+	CMP		AL,0
+	JE		fin				; Done!jump to fin
+	MOV		AH,0x0e			; Display a character
+	MOV		BX,15			; Color
+	INT		0x10			; Bios video display.Reference: http://www.ctyme.com/intr/rb-0106.htm
+	JMP		putloop
+
+; Infinite loop
+fin:
+	HLT						; Halt
+	JMP		fin				; Loop
+
+; Message
+msg:
+	DB		0x0a, 0x0a	    ; Two line feed
+	DB		&quot;************&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed.0x0d+0x0a==\n
+	DB		&quot;Hello World&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;This is CoolOS&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;Author: si9ma&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;Blog: http://www.coolcodes.me&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		&quot;************&quot;
+	DB		0x0d			; One carriage return
+	DB		0x0a			; One line feed
+	DB		0				; End of String
+
+	TIMES 510-($-$$) db 0   ; Fill the rest of sector with 0
+	DB	0x55, 0xaa          ; Add boot signature at the end of bootloader
+</code></pre><h3 id="makefile">Makefile</h3>
+<p>接下来，写个Makefile。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#75715e"># Author: si9ma
+</span><span style="color:#75715e"># Blog: http://www.coolcodes.me
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># Img file we will use to boot
+</span><span style="color:#75715e"></span>IMG<span style="color:#f92672">=</span>CoolOS.img
+
+<span style="color:#75715e"># detect architecture for qemu Smartly.
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">ifeq</span> <span style="color:#960050;background-color:#1e0010">(</span><span style="color:#66d9ef">$(</span>shell uname -m<span style="color:#66d9ef">)</span><span style="color:#960050;background-color:#1e0010">,x86_64)</span>
+	QEMU<span style="color:#f92672">=</span>qemu-system-x86_64
+<span style="color:#960050;background-color:#1e0010">else</span>
+	QEMU<span style="color:#f92672">=</span>qemu-system-i386
+<span style="color:#960050;background-color:#1e0010">endif</span>
+
+<span style="color:#a6e22e">img</span><span style="color:#f92672">:</span>hello_world.bin
+	dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>IMG<span style="color:#66d9ef">)</span> count<span style="color:#f92672">=</span><span style="color:#ae81ff">2880</span> bs<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span> 	<span style="color:#75715e"># Create a empty img file with size 2880*512 bytes</span>
+	dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>hello_world.bin of<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>IMG<span style="color:#66d9ef">)</span> bs<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span> conv<span style="color:#f92672">=</span>notrunc	<span style="color:#75715e"># add hello_world.bin to the first sector of img file(use conv=notrunc)</span>
+
+<span style="color:#a6e22e">hello_world.bin</span><span style="color:#f92672">:</span>
+	nasm -f bin -o hello_world.bin hello_world.asm
+
+<span style="color:#a6e22e">run</span><span style="color:#f92672">:</span>
+	make img			<span style="color:#75715e"># Update img file firstly.</span>
+	<span style="color:#66d9ef">$(</span>QEMU<span style="color:#66d9ef">)</span> -drive file<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>IMG<span style="color:#66d9ef">)</span>,if<span style="color:#f92672">=</span>floppy
+
+<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+	rm hello_world.bin <span style="color:#66d9ef">$(</span>IMG<span style="color:#66d9ef">)</span>
+</code></pre></div><h3 id="测试">测试</h3>
+<p>执行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make run
+</code></pre></div><p>运行结果：
+<img src="https://www.si9ma.com/img/CoolOS/CoolOS-hello_world/result.png" alt=""></p>
+<p>最后，来看一下上面那段标准<code>FAT12</code>格式软盘专用的代码到底是干嘛的。
+执行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">file CoolOS.img
+</code></pre></div><p>输出：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CoolOS.img: DOS/MBR boot sector, code offset 0x3c+2, OEM-ID <span style="color:#e6db74">&#34; CoolOS &#34;</span>, root entries 224, sectors <span style="color:#ae81ff">2880</span> <span style="color:#f92672">(</span>volumes &lt;<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span> MB<span style="color:#f92672">)</span>, sectors/FAT 9, sectors/track 18, sectors <span style="color:#ae81ff">2880</span> <span style="color:#f92672">(</span>volumes &gt; <span style="color:#ae81ff">32</span> MB<span style="color:#f92672">)</span>, serial number 0xffffffff, label: <span style="color:#e6db74">&#34;CoolOS     &#34;</span>, FAT <span style="color:#f92672">(</span><span style="color:#ae81ff">12</span> bit<span style="color:#f92672">)</span>
+</code></pre></div><p>可以看出，这段代码其实就是FAT12格式化代码。</p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/coolos-bios_and_boot/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/bios.jpeg">
+        <img src="https://www.si9ma.com/img/bios.jpeg" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">自制操作系统(CoolOS) - 操作系统启动过程与BIOS</h2>
+    <p class="card-text">自制操作系统，BIOS和BOOT部分，讲解了计算机的Bios启动过程</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2017-08-09 89:00">Aug 9, 2017</time></p>
+      <p>#CoolOS </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

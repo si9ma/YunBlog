@@ -1,0 +1,238 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/post/</link>
+    <description>Recent content in Posts on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 04 Apr 2019 10:23:00 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux启动第一个进程之Init &amp; Systemd</title>
+      <link>https://www.si9ma.com/post/linux_init_and_systemd/</link>
+      <pubDate>Thu, 04 Apr 2019 10:23:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/linux_init_and_systemd/</guid>
+      <description>Linux启动过程中的第一个进程,Init or Systemd</description>
+    </item>
+    
+    <item>
+      <title>计算机组织整理</title>
+      <link>https://www.si9ma.com/post/computer_organization/</link>
+      <pubDate>Wed, 03 Apr 2019 19:33:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/computer_organization/</guid>
+      <description>整理常见的计算机组织</description>
+    </item>
+    
+    <item>
+      <title>Unix家族史</title>
+      <link>https://www.si9ma.com/post/unix_family/</link>
+      <pubDate>Tue, 02 Apr 2019 21:11:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/unix_family/</guid>
+      <description>Unix家族史</description>
+    </item>
+    
+    <item>
+      <title>通过SSH登录内网机器和访问内网网站</title>
+      <link>https://www.si9ma.com/post/ssh_port_forward_and_proxy/</link>
+      <pubDate>Fri, 28 Dec 2018 22:48:48 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/ssh_port_forward_and_proxy/</guid>
+      <description>SSH穿越学习</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;赋值问题之不要使用创建临时对象的方式修改包含动态内存的对象</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-assign-problem/</link>
+      <pubDate>Sun, 30 Sep 2018 21:39:28 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-assign-problem/</guid>
+      <description>C++赋值问题</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;之const引用</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-const-reference/</link>
+      <pubDate>Sun, 09 Sep 2018 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-const-reference/</guid>
+      <description>C++ const引用学习</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;之引用</title>
+      <link>https://www.si9ma.com/post/c&#43;&#43;-reference/</link>
+      <pubDate>Sun, 09 Sep 2018 07:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/c&#43;&#43;-reference/</guid>
+      <description>C++ 引用学习</description>
+    </item>
+    
+    <item>
+      <title>怎么在Linux使用命令行连接WIFI</title>
+      <link>https://www.si9ma.com/post/how-to-connect-wifi-in-linux-command/</link>
+      <pubDate>Thu, 15 Mar 2018 19:00:02 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/how-to-connect-wifi-in-linux-command/</guid>
+      <description>在Linux命令行中连接WIFI</description>
+    </item>
+    
+    <item>
+      <title>Archlinux-Installer使用教程</title>
+      <link>https://www.si9ma.com/post/archlinux-installer/</link>
+      <pubDate>Thu, 15 Mar 2018 14:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/archlinux-installer/</guid>
+      <description>Archlinux-Installer为ArchLinux快速安装脚本，支持配置备份，支持环境快速恢复</description>
+    </item>
+    
+    <item>
+      <title>Linux中的Readline</title>
+      <link>https://www.si9ma.com/post/readline/</link>
+      <pubDate>Fri, 02 Feb 2018 11:44:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/readline/</guid>
+      <description>Linux中的Readline学习</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - 依赖注入(Dependency Injection)</title>
+      <link>https://www.si9ma.com/post/spring-dependencyinjection/</link>
+      <pubDate>Fri, 19 Jan 2018 17:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-dependencyinjection/</guid>
+      <description>Spring 依赖注入</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - Bean配置继承(配置重用)</title>
+      <link>https://www.si9ma.com/post/spring-bean_inheritance/</link>
+      <pubDate>Fri, 19 Jan 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-bean_inheritance/</guid>
+      <description>Spring Bean配置继承学习</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - BeanPostProcessor</title>
+      <link>https://www.si9ma.com/post/spring-beanpostprocessor/</link>
+      <pubDate>Thu, 18 Jan 2018 16:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-beanpostprocessor/</guid>
+      <description>Spring BeanPostProcessor</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - Bean Scope属性之singleton和prototype</title>
+      <link>https://www.si9ma.com/post/spring-scope_singleton_and_prototype/</link>
+      <pubDate>Wed, 17 Jan 2018 16:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-scope_singleton_and_prototype/</guid>
+      <description>Spring Bean Scope属性</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - HelloWorld</title>
+      <link>https://www.si9ma.com/post/spring-helloworld/</link>
+      <pubDate>Wed, 17 Jan 2018 14:20:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-helloworld/</guid>
+      <description>Spring HelloWorld</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - 切换到保护模式并连接C语言</title>
+      <link>https://www.si9ma.com/post/coolos-protected_mode/</link>
+      <pubDate>Tue, 15 Aug 2017 15:55:07 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-protected_mode/</guid>
+      <description>自制操作系统，切换到保护模式，使用C语言编写代码</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - Hello World</title>
+      <link>https://www.si9ma.com/post/coolos-hello_world/</link>
+      <pubDate>Fri, 11 Aug 2017 10:38:05 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-hello_world/</guid>
+      <description>自制操作系统，使用BIOS在屏幕上打印出Hello World</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - 操作系统启动过程与BIOS</title>
+      <link>https://www.si9ma.com/post/coolos-bios_and_boot/</link>
+      <pubDate>Wed, 09 Aug 2017 09:25:40 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-bios_and_boot/</guid>
+      <description>自制操作系统，BIOS和BOOT部分，讲解了计算机的Bios启动过程</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - Plan</title>
+      <link>https://www.si9ma.com/post/coolos-preface/</link>
+      <pubDate>Tue, 08 Aug 2017 13:40:09 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-preface/</guid>
+      <description>自制操作系统，Plan</description>
+    </item>
+    
+    <item>
+      <title>Archlinux下的中文输入法问题</title>
+      <link>https://www.si9ma.com/post/archlinux-fcitx-fix/</link>
+      <pubDate>Fri, 21 Apr 2017 23:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/archlinux-fcitx-fix/</guid>
+      <description>ArchLinux下搜狗输入法问题解决</description>
+    </item>
+    
+    <item>
+      <title>linux构建静态库并测试</title>
+      <link>https://www.si9ma.com/post/linux-static-lib/</link>
+      <pubDate>Mon, 17 Apr 2017 23:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/linux-static-lib/</guid>
+      <description>编写Linux静态库</description>
+    </item>
+    
+    <item>
+      <title>编写一个简单的Linux可加载内核模块</title>
+      <link>https://www.si9ma.com/post/linux-modules/</link>
+      <pubDate>Wed, 05 Apr 2017 23:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/linux-modules/</guid>
+      <description>编写Linux可加载内核模块</description>
+    </item>
+    
+    <item>
+      <title>Gnome桌面常用快捷键总结</title>
+      <link>https://www.si9ma.com/post/gnome-shortcut/</link>
+      <pubDate>Thu, 16 Mar 2017 19:00:02 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/gnome-shortcut/</guid>
+      <description>Gnome桌面系统，个人常用快捷键总结</description>
+    </item>
+    
+    <item>
+      <title>在linux上通过wine使用MASM汇编器</title>
+      <link>https://www.si9ma.com/post/masm-install/</link>
+      <pubDate>Mon, 13 Mar 2017 22:00:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/masm-install/</guid>
+      <description>在Linux上安装MASM</description>
+    </item>
+    
+    <item>
+      <title>在安卓设备上部署安装Linux</title>
+      <link>https://www.si9ma.com/post/android-linux/</link>
+      <pubDate>Sun, 26 Feb 2017 03:00:02 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/android-linux/</guid>
+      <description>第一篇博文，教你如何在安卓设备上安装一个迷你Linux</description>
+    </item>
+    
+  </channel>
+</rss>

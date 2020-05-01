@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>编写一个简单的Linux可加载内核模块 &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="编写Linux可加载内核模块" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">编写一个简单的Linux可加载内核模块</h1>
+          <p class="post-date">Posted <time datetime="2017-04-05">Apr 5, 2017</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/linux-1-800x420.jpg">
+          <img src="https://www.si9ma.com/img/linux-1-800x420.jpg" >
+        </picture>
+        
+        <p>什么是Linux可加载内核模块？Linux可加载内核模块（<code>Loadable Kernel Module，LKM</code>）是Linux内核向外部提供的一个接口。我们知道Linux内核是一个单内核，它集成了很多的内容。那么当我想向Linux内核中写入点新功能怎么办？需要向Linux内核添加一个新的设备驱动怎么办？修改内核源码，然后重新编译？那不得麻烦死。所以Linux就提供了模块加载机制。那样，我们就可以编写自己的可加载内核模块，然后加载到Linux内核，成为内核的一部分。当我们不需要它的时候，可以把它卸载。这样添加新的设备驱动也变得十分容易了。
+<code>模块是具有独立功能的程序，它可以被单独编译，但不能独立运行。它在运行时被链接到内核作为内核的一部分在内核空间运行</code>，这与运行在用户空间的进程是不同的。模块通常由一组函数和数据结构组成，用来实现一种文件系统、一个驱动程序或其他内核上层的功能。</p>
+<!-- raw HTML omitted -->
+<ul>
+<li>编写内核模块使用的头文件是内核头文件(<code>KernelHeaders</code>),用于构建内核模块的头文件在<code>/lib/modules/${kver}/build</code>(下。（<code>${kver</code>是当前linux内核的版本，一般是<code>uname -r</code>的输出)。(<code>/usr/include</code>下的头文件是用户空间用户程序的头文件）<strong><a href="https://kernelnewbies.org/KernelHeaders">#more about KernelHeaders</a></strong></li>
+</ul>
+<h3 id="编写模块源码">编写模块源码</h3>
+<p><code>hello.c</code></p>
+<pre><code class="language-1c" data-lang="1c">#include &lt;linux/module.h&gt;    // included for all kernel modules
+#include &lt;linux/kernel.h&gt;    // included for KERN_INFO
+#include &lt;linux/init.h&gt;        // included for __init and __exit macros
+
+static int __init hello_init(void)      //模块入口函数
+{
+    printk(KERN_INFO &quot;Hello world!\n&quot;);
+    return 0;    // Non-zero return means that the module couldn't be loaded.
+}
+
+static void __exit hello_exit(void)       //模块出口函数，无返回值
+{
+    printk(KERN_INFO &quot;Cleaning up module.\n&quot;);
+}
+
+module_init(hello_init);
+module_exit(hello_exit);
+</code></pre><p>内核模块的编写规范自行Google</p>
+<h3 id="编写makefile">编写Makefile</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile">obj-m <span style="color:#f92672">:=</span> hello.o
+KDIR <span style="color:#f92672">:=</span> /lib/modules/<span style="color:#66d9ef">$(</span>shell uname -r<span style="color:#66d9ef">)</span>/build
+PWD <span style="color:#f92672">:=</span> <span style="color:#66d9ef">$(</span>shell pwd<span style="color:#66d9ef">)</span>
+ 
+<span style="color:#a6e22e">all</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">$(</span>MAKE<span style="color:#66d9ef">)</span> -C <span style="color:#66d9ef">$(</span>KDIR<span style="color:#66d9ef">)</span> M<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>PWD<span style="color:#66d9ef">)</span> modules
+ 
+<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">$(</span>MAKE<span style="color:#66d9ef">)</span> -C <span style="color:#66d9ef">$(</span>KDIR<span style="color:#66d9ef">)</span> M<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>PWD<span style="color:#66d9ef">)</span> clean
+</code></pre></div><p>Makefile的编写规范自行Google</p>
+<h3 id="编译并测试">编译并测试</h3>
+<p><code>编译：在工作目录下执行</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make
+</code></pre></div><p><code>加载模块到内核：</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo insmod hello.ko
+</code></pre></div><p><code>运行：</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo dmesg
+</code></pre></div><p><img src="https://www.si9ma.com/img/linux-modules/linux-modules-1.png" alt=""></p>
+<p><code>使用lsmod查看已经加载的模块：</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsmod | grep hello
+</code></pre></div><p><img src="https://www.si9ma.com/img/linux-modules/linux-modules-2.png" alt="">
+<code>卸载模块：</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo rmmod hello
+sudo dmesg
+</code></pre></div><p><img src="https://www.si9ma.com/img/linux-modules/linux-modules-3.png" alt=""></p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/gnome-shortcut/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/GnomeLogoHorizontal-1080x408.png">
+        <img src="https://www.si9ma.com/img/GnomeLogoHorizontal-1080x408.png" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">Gnome桌面常用快捷键总结</h2>
+    <p class="card-text">Gnome桌面系统，个人常用快捷键总结</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2017-03-16 316:00">Mar 16, 2017</time></p>
+      <p>#Linux </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

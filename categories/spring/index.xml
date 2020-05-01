@@ -1,0 +1,58 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/categories/spring/</link>
+    <description>Recent content in Spring on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 19 Jan 2018 17:30:00 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Learn Spring - 依赖注入(Dependency Injection)</title>
+      <link>https://www.si9ma.com/post/spring-dependencyinjection/</link>
+      <pubDate>Fri, 19 Jan 2018 17:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-dependencyinjection/</guid>
+      <description>Spring 依赖注入</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - Bean配置继承(配置重用)</title>
+      <link>https://www.si9ma.com/post/spring-bean_inheritance/</link>
+      <pubDate>Fri, 19 Jan 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-bean_inheritance/</guid>
+      <description>Spring Bean配置继承学习</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - BeanPostProcessor</title>
+      <link>https://www.si9ma.com/post/spring-beanpostprocessor/</link>
+      <pubDate>Thu, 18 Jan 2018 16:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-beanpostprocessor/</guid>
+      <description>Spring BeanPostProcessor</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - Bean Scope属性之singleton和prototype</title>
+      <link>https://www.si9ma.com/post/spring-scope_singleton_and_prototype/</link>
+      <pubDate>Wed, 17 Jan 2018 16:30:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-scope_singleton_and_prototype/</guid>
+      <description>Spring Bean Scope属性</description>
+    </item>
+    
+    <item>
+      <title>Learn Spring - HelloWorld</title>
+      <link>https://www.si9ma.com/post/spring-helloworld/</link>
+      <pubDate>Wed, 17 Jan 2018 14:20:00 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/spring-helloworld/</guid>
+      <description>Spring HelloWorld</description>
+    </item>
+    
+  </channel>
+</rss>

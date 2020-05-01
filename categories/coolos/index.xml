@@ -1,0 +1,49 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CoolOS - si9ma&#39;s blog</title>
+    <link>https://www.si9ma.com/categories/coolos/</link>
+    <description>Recent content in CoolOS on si9ma&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 15 Aug 2017 15:55:07 +0800</lastBuildDate>
+    
+        <atom:link href="https://www.si9ma.com/categories/coolos/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>自制操作系统(CoolOS) - 切换到保护模式并连接C语言</title>
+      <link>https://www.si9ma.com/post/coolos-protected_mode/</link>
+      <pubDate>Tue, 15 Aug 2017 15:55:07 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-protected_mode/</guid>
+      <description>自制操作系统，切换到保护模式，使用C语言编写代码</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - Hello World</title>
+      <link>https://www.si9ma.com/post/coolos-hello_world/</link>
+      <pubDate>Fri, 11 Aug 2017 10:38:05 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-hello_world/</guid>
+      <description>自制操作系统，使用BIOS在屏幕上打印出Hello World</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - 操作系统启动过程与BIOS</title>
+      <link>https://www.si9ma.com/post/coolos-bios_and_boot/</link>
+      <pubDate>Wed, 09 Aug 2017 09:25:40 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-bios_and_boot/</guid>
+      <description>自制操作系统，BIOS和BOOT部分，讲解了计算机的Bios启动过程</description>
+    </item>
+    
+    <item>
+      <title>自制操作系统(CoolOS) - Plan</title>
+      <link>https://www.si9ma.com/post/coolos-preface/</link>
+      <pubDate>Tue, 08 Aug 2017 13:40:09 +0800</pubDate>
+      
+      <guid>https://www.si9ma.com/post/coolos-preface/</guid>
+      <description>自制操作系统，Plan</description>
+    </item>
+    
+  </channel>
+</rss>

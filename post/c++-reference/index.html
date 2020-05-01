@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>C&#43;&#43;之引用 &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="C&#43;&#43; 引用学习" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">C&#43;&#43;之引用</h1>
+          <p class="post-date">Posted <time datetime="2018-09-09">Sep 9, 2018</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/product_10337_product_shot_wide_image.jpg">
+          <img src="https://www.si9ma.com/img/product_10337_product_shot_wide_image.jpg" >
+        </picture>
+        
+        <p>很久没写博客了，感觉自己很久没有静下心来认真学习了，今天一起合租的舍友都走了，一个人静下心来学习了一天，写写博客。</p>
+<h3 id="引用">引用</h3>
+<p>引用是C++较C新增的一个概念，今天简单研究了下引用的实现。</p>
+<!-- raw HTML omitted -->
+<p>先写一小段代码看看：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+    <span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+    <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span> d<span style="color:#f92672">=</span>a;
+    d<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> d;
+    cout <span style="color:#f92672">&lt;&lt;</span> a;
+}
+</code></pre></div><p>看一下它的汇编代码，有点长，就只看跟引用有关那一部分吧：</p>
+<pre><code class="language-x86asm" data-lang="x86asm">    movl    $5, -20(%rbp)
+    leaq    -20(%rbp), %rax
+    movq    %rax, -16(%rbp)
+    movq    -16(%rbp), %rax
+    movl    $8, (%rax)
+</code></pre><p>从汇编代码中可以看出来，引用也占用了内存空间了，并且这个引用里面存的是变量a的地址（<code>leaq</code>取址)。</p>
+<p>诶，怎么有点像指针呢，那再写一段代码看看：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+    <span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>d<span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
+    <span style="color:#f92672">*</span>d<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>d;
+    cout <span style="color:#f92672">&lt;&lt;</span> a;
+}
+</code></pre></div><p>汇编一下；</p>
+<pre><code class="language-x86asm" data-lang="x86asm">movl	$5, -20(%rbp)
+leaq	-20(%rbp), %rax
+movq	%rax, -16(%rbp)
+movq	-16(%rbp), %rax
+movl	$8, (%rax)
+</code></pre><p>诶，巧了，一毛一样，不太确定，diff一下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">diff -y pointer.s reference.s | colordiff
+</code></pre></div><pre><code class="language-x86asm" data-lang="x86asm">.file   &quot;pointer.cpp&quot;                                 |         .file   &quot;reference.cpp&quot;
+</code></pre><p>诶，只有第一行不一样。</p>
+<h3 id="so">SO</h3>
+<p>所以，C++里面的引用和指针实现是类似的，都是存了地址。只是它们的语法定义、声明方式和使用方式不一样而已，但这些区别只是对编译器来说有区别，它们最终的汇编代码是一样哒。</p>
+<hr>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/how-to-connect-wifi-in-linux-command/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/linux-1-800x420.jpg">
+        <img src="https://www.si9ma.com/img/linux-1-800x420.jpg" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">怎么在Linux使用命令行连接WIFI</h2>
+    <p class="card-text">在Linux命令行中连接WIFI</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2018-03-15 315:00">Mar 15, 2018</time></p>
+      <p>#Linux </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

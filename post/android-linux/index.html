@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>在安卓设备上部署安装Linux &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="第一篇博文，教你如何在安卓设备上安装一个迷你Linux" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">在安卓设备上部署安装Linux</h1>
+          <p class="post-date">Posted <time datetime="2017-02-26">Feb 26, 2017</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/android-apps-on-linux.jpg">
+          <img src="https://www.si9ma.com/img/android-apps-on-linux.jpg" >
+        </picture>
+        
+        <p>搭建博客已经有10天了，但仍然还没有写任何东西，待火车上甚是无聊，所以就来写写第一篇博文（jidong（“.”））。</p>
+<h3 id="why">Why</h3>
+<p>使用Linux已经有一段时间了，虽说不是精通，但用作日常使用已经是不成问题了，不过自己一般都是在电脑上使用Linux。那么问题来了，出门在外就没法使用它了，怎么办？使用安卓终端模拟器？虽说安卓终端模拟器会提供一些类似于Linux命令的命令，但是它只提供一小部分，很多Linux常用命令它都是不提供的。所以为何不在安卓手机上安装一个Linux呢？谷歌了一下，还真找到了在安卓上装Linux的方法。</p>
+<!-- raw HTML omitted -->
+<h3 id="道具">道具</h3>
+<ul>
+<li>
+<p>已经获得root权限的安卓设备（还没root的童鞋请自行google或百度寻找root自己爱机的方法）</p>
+</li>
+<li>
+<p>安卓设备上至少有4G的储存空间（越大越好）</p>
+</li>
+<li>
+<p>最新版的**<a href="https://zh.m.wikipedia.org/zh-cn/BusyBox">BusyBox</a>**（BusyBox是一个以自由形式发行的应用程序，它在单一的可执行文件中提供了精简的Unix工具集。）</p>
+</li>
+<li>
+<p>最新版安卓终端模拟器（我一般使用Termux）</p>
+</li>
+<li>
+<p>最新版Linux Deploy（记得使用最新版的，因为我使用非最新版安装时，出现了错误）</p>
+</li>
+<li>
+<p>最新版的Hacker’s Keyboard(安卓神器，解决安卓虚拟键盘部分键缺失的问题）</p>
+</li>
+</ul>
+<p>上面提到的最新版BusyBox，Termux，Linux Deploy,Hacker’s Keyboard均可在Google Play商店免费下载，对于无法访问Google的童鞋，可以从国内各大安卓市场下载，或者从**<a href="http://pan.baidu.com/share/link?shareid=430693170&amp;uk=2141079826">我的百度云</a>**下载，均是我从Google Play商店下载下来的。</p>
+<h3 id="go">Go</h3>
+<h4 id="下载安装busybox">下载安装BusyBox</h4>
+<ul>
+<li>下载BusyBox后，打开BusyBox，如下图</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-1.png" alt=""></p>
+<ul>
+<li>安装BusyBox需要root权限，上图中为安装完成后的状态</li>
+</ul>
+<h4 id="安装termux和hackers-keyboard">安装Termux和Hacker’s Keyboard</h4>
+<ul>
+<li>配置Hacker’s Keyboard</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-2.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-3.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-4.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-5.png" alt=""></p>
+<ul>
+<li>效果</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-6.png" alt=""></p>
+<h4 id="安装linux">安装Linux</h4>
+<ul>
+<li>打开Linux Deploy,更换语言为中文</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-7.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-8.png" alt=""></p>
+<ul>
+<li>Linux Deploy设置</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-7.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-9.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-10.png" alt=""></p>
+<ul>
+<li>配置Linux Deploy（点击主界面右下角类似有下载的图标进行配置）</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-11.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-12.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-13.png" alt=""></p>
+<ul>
+<li>安装</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-14.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-15.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-16.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-17.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-18.png" alt=""></p>
+<p>安装中……….</p>
+<ul>
+<li>启动</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-19.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-20.png" alt=""></p>
+<h4 id="ssh连接linux">SSH连接Linux</h4>
+<ul>
+<li>打开Termux，通过SSH连接容器，本地地址为127.0.0.1，或者远程连接容器，IP地址在Linux Deploy主页可以看到，通过sudo passwd root更改root用户的密码</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-21.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/android-linux/android-linux-22.png" alt=""></p>
+<h4 id="done">Done</h4>
+<ul>
+<li>终于可以愉快地在手机上玩耍Linux了</li>
+</ul>
+<h3 id="总结">总结</h3>
+<p>第一次写博客，感觉挺耗时间的，写下了也挺累的，不过感觉挺好的。。。。。。</p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>

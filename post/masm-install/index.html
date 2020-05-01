@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>在linux上通过wine使用MASM汇编器 &middot; si9ma&#39;s blog</title>
+  <meta name="description" content="在Linux上安装MASM" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.si9ma.com/css/main.min.css" />
+  
+  <style>
+    body {
+      background: #ecedef url("https://www.si9ma.com/img/bg.jpg") repeat;
+    }
+  </style>
+</head>
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://www.si9ma.com" class="nav-text">si9ma</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://www.si9ma.com" class="hamburger-menu-overlay-link">Home</a></li>
+      <li><a href="https://www.si9ma.com/about/" class="hamburger-menu-overlay-link">About Me</a></li>
+      <li><a href="https://www.si9ma.com/categories/c&#43;&#43;" class="hamburger-menu-overlay-link">C&#43;&#43;</a></li><li><a href="https://www.si9ma.com/categories/coolos" class="hamburger-menu-overlay-link">Coolos</a></li><li><a href="https://www.si9ma.com/categories/cs" class="hamburger-menu-overlay-link">Cs</a></li><li><a href="https://www.si9ma.com/categories/linux" class="hamburger-menu-overlay-link">Linux</a></li><li><a href="https://www.si9ma.com/categories/os" class="hamburger-menu-overlay-link">Os</a></li><li><a href="https://www.si9ma.com/categories/spring" class="hamburger-menu-overlay-link">Spring</a></li><li><a href="https://www.si9ma.com/categories/tool" class="hamburger-menu-overlay-link">Tool</a></li>
+    </ul>
+  </div>
+</nav>
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">在linux上通过wine使用MASM汇编器</h1>
+          <p class="post-date">Posted <time datetime="2017-03-13">Mar 13, 2017</time></p>
+        </header>
+        
+        <picture class="post-figure">
+            
+            <source srcset="https://www.si9ma.com/img/linux-1-800x420.jpg">
+          <img src="https://www.si9ma.com/img/linux-1-800x420.jpg" >
+        </picture>
+        
+        <h3 id="what-masm">What MASM</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">The Microsoft Macho Assembler <span style="color:#f92672">(</span>MASM<span style="color:#f92672">)</span> is an x86 assembler<span style="color:#f92672">(</span>汇编器<span style="color:#f92672">)</span> that uses the Intel syntax <span style="color:#66d9ef">for</span> MS-DOS and Microsoft Windows. Beginning with MASM 8.0 there are two versions of the assembler - one <span style="color:#66d9ef">for</span> 16-bit and 32-bit assembly sources, and another <span style="color:#f92672">(</span>ML64<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> 64-bit sources only.
+</code></pre></div><h3 id="why">Why</h3>
+<p>这学期学校开了汇编语言与接口技术课程。教材中使用的汇编器是微软的MASM，但MASM只支持win平台，不支持mac和linux平台。虽然linux平台也有很多汇编器，比如NSMA（使用intel语法）、GAS（使用AT&amp;T语法）。但考虑到NASM和GAS的语法跟MASM的语法还是有差异，和老师讲课内容有出入，而且又不想使用Windows。所以打算在linux通过wine安装使用MASM。也希望自己多动手，多学点东西。</p>
+<h3 id="安装wine">安装Wine</h3>
+<ul>
+<li>Archlinux上通过pacman安装</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo pacman -Sy wine
+</code></pre></div><ul>
+<li>Ubuntu 上的**<a href="https://wiki.winehq.org/Ubuntu">安装方法</a>**</li>
+</ul>
+<p>其他发行版可以百度or谷歌搜索安装方法</p>
+<!-- raw HTML omitted -->
+<h3 id="初始化wine">初始化Wine</h3>
+<p>Wine有个东西叫做wineprefix，wineprefix默认是<code>～/.wine</code>,如果你只在终端里使用<code>wine program</code>,那么wine将在用户home目录创建一个<code>.wine</code>文件夹，然后在<code>.wine</code>文件夹中初始化wine环境， 该环境的配置保存在<code>～/.wine/*.reg</code>文件中，C:\的文件树保存在<code>~/.wine/drive_c</code>文件夹下。
+当然，你也可以自定义wineprefix，使用下列命令初始化你自己的wine环境：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINEARCH<span style="color:#f92672">=</span>win32 WINEPREFIX<span style="color:#f92672">=</span>~/你自定义的文件夹名 winecfg
+</code></pre></div><p>比如，我的是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINEARCH<span style="color:#f92672">=</span>win32 WINEPREFIX<span style="color:#f92672">=</span>~/.wine_ml11 winecfg
+</code></pre></div><p>这样我的wine环境就初始化到了<code>~/.wine_ml11</code>文件夹下，Windows文件系统储存在<code>～/.wine_ml11/drive_c</code>文件夹下</p>
+<h3 id="下载解压masm32">下载解压MASM32</h3>
+<p>使用<code>wget</code>下载 masm32v11r.zip：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget  http://www.masm32.com/download/masm32v11r.zip
+</code></pre></div><p>解压：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">unzip masm32v11r.zip
+</code></pre></div><h3 id="安装masm">安装MASM</h3>
+<p>使用命令安装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINEPREFIX<span style="color:#f92672">=</span>~/wine的初始化目录 wine install.exe
+</code></pre></div><p>比如我的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINEPREFIX<span style="color:#f92672">=</span>~/.wine_ml11 wine install.exe
+</code></pre></div><ul>
+<li>安装过程(一路ok）：</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-1.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-2.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-3.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-4.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-5.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-6.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-7.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-8.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-9.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-10.png" alt=""></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-11.png" alt=""></p>
+<ul>
+<li>创建桌面快捷方式，yes创建，no不创建。</li>
+</ul>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-12.png" alt=""></p>
+<ul>
+<li>安装成功</li>
+</ul>
+<h3 id="设置环境变量">设置环境变量</h3>
+<p>设置环境变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINEPREFIX<span style="color:#f92672">=</span>~/你的wine目录 wine regedit
+</code></pre></div><p>比如我的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WINPREFIX<span style="color:#f92672">=</span>~/.wine_ml11 wine regedit
+</code></pre></div><p>在弹出的窗口中定位到<code>HKEY_LOCAL_MACHINE-&gt;System-&gt;CurrentControlSet-&gt;Control-&gt;Session Manager-&gt;Environment</code></p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-13.png" alt=""></p>
+<p>在PATH的值后面加上<code>;C:\masm32\bin</code></p>
+<p>新建String Value,新增INCLUDE变量，填写值<code>C:\masm32\include</code>以及新增LIB变量，填写值<code>C:\masm32\lib</code></p>
+<p>退出wine，使环境变量更改生效</p>
+<ul>
+<li>到此安装配置成功</li>
+</ul>
+<h3 id="编写运行第一个hello-world程序">编写运行第一个Hello World程序</h3>
+<ul>
+<li>在home目录编写Hello.asm:</li>
+</ul>
+<pre><code class="language-x86asm" data-lang="x86asm">DATA SEGMENT
+     MSG DB &quot;Hello World!&quot;,&quot;$&quot;
+DATA ENDS
+
+CODE SEGMENT
+     ASSUME CS:CODE, DS:DATA
+	 START:
+	     MOV AX, DATA
+		 MOV DS, AX
+
+         MOV AH, 09H
+		 LEA DX, MSG     ;Print String
+		 INT 21H
+
+	STOP:
+	     MOV AX, 4C00H
+		 INT 21H
+CODE ENDS
+     END START
+</code></pre><ul>
+<li>设置WINEPREFIX变量
+如果你使用默认的<code>~/.wine</code>,可忽略此步骤。
+临时设置：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export WINEPREFIX<span style="color:#f92672">=</span>~/.wine_ml11<span style="color:#f92672">(</span>改为你的目录）
+</code></pre></div><p>永久设置：
+把<code>export WINEPREFIX=~/.wine_ml11（改为你的目录）</code>写入.bashrc文件或者.zshrc文件中</p>
+<ul>
+<li>编译Hello.asm</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wine ml /c Hello.asm
+</code></pre></div><p><img src="https://www.si9ma.com/img/masm-install/masm-install-14.png" alt="">
+编译后会生成Hello.obj文件</p>
+<ul>
+<li>链接Hello.obj</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wine link Hello.obj
+</code></pre></div><p><img src="https://www.si9ma.com/img/masm-install/masm-install-15.png" alt="">
+链接报错，<code>fatal error LNK1123: failure during conversion to COFF: file invalid or corrupt</code>，使用link16进行链接可解决</p>
+<p><img src="https://www.si9ma.com/img/masm-install/masm-install-16.png" alt="">
+链接成功。</p>
+<ul>
+<li>运行Hello.exe</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wine Hello.exe
+</code></pre></div><p><img src="https://www.si9ma.com/img/masm-install/masm-install-17.png" alt="">
+提示需要安装dosbox
+安装dosbox：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo pacman -S dosbox
+</code></pre></div><p>命令运行dosbox：
+<img src="https://www.si9ma.com/img/masm-install/masm-install-18.png" alt="">
+挂载当前目录为C：
+<img src="https://www.si9ma.com/img/masm-install/masm-install-19.png" alt=""></p>
+<ul>
+<li>切换到<code>C：</code>并运行Hello.exe
+<img src="https://www.si9ma.com/img/masm-install/masm-install-20.png" alt="">
+搞定！</li>
+</ul>
+<h3 id="补充">补充</h3>
+<p>上课的时候发现老师讲的编译命令是MASM,一脸懵，一查才发现MASM是旧版本的编译命令，貌似从6.x版本后，编译命令就从MASM改为ML了。而且发现教材用的masm版本是6.15的。
+需要的童鞋，可以从**<a href="http://www2.hawaii.edu/~pager/312/masm%20615.ZIP">这里</a>**下载MASM6.15压缩版（其中提供了MASM.EXE和LINK.EXE等程序，感觉有可能是从5.x版本中提取出来的）(你也可以从网上找5.x版本的）的，解压之后将其复制到你的wine的drive_c下，然后改一下wine中的环境变量，然后就可以通过<code>wine MASM</code> <code>wine LINK</code>使用了。</p>
+<ul>
+<li>
+<p>发现少了个调试程序，名字叫做debug.exe，是dos系统下的一个16-bit调试程序，可以从**<a href="https://pan.baidu.com/s/1jHAlmL4">我云盘</a>**上下载，然后放到你经常写（编译，链接，调试）汇编程序的文件夹，并使用dosbox来运行debug.exe程序（因为是dos程序，所以需要dosbox来运行)</p>
+</li>
+<li>
+<p>还可以设置doxbox运行时自动挂载目录，在<code>～/.dosbox</code>下的配置文件下找到<code>[autoexec]</code>，然后加入以下内容：</p>
+</li>
+</ul>
+<pre><code class="language-dos" data-lang="dos">MOUNT C .
+C:
+</code></pre><p>保存退出</p>
+<p>现在就可以运行<code>dosbox</code>，然后在弹出的窗口中使用DEBUG了。</p>
+<h3 id="总结">总结</h3>
+<p>MASM下载安装下来，也就几M，而且运行起来挺流畅。配合bash脚本使用就更方便了。</p>
+<hr>
+<p>【参考】：<a href="https://reberhardt.com/blog/programming/2016/01/30/masm-on-mac-or-linux.html">https://reberhardt.com/blog/programming/2016/01/30/masm-on-mac-or-linux.html</a></p>
+
+      </article>
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "si9ma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://www.si9ma.com/post/android-linux/" class="card blog-card" rel="bookmark" >
+    
+    <div class="card-img-container">
+      <p class="card-img-overlay">Next Article</p>
+      <picture>
+        
+        <source srcset="https://www.si9ma.com/img/android-apps-on-linux.jpg">
+        <img src="https://www.si9ma.com/img/android-apps-on-linux.jpg" class="card-img" >
+      </picture>
+    </div>
+    
+  <article class="card-body">
+    <h2 class="card-title">在安卓设备上部署安装Linux</h2>
+    <p class="card-text">第一篇博文，教你如何在安卓设备上安装一个迷你Linux</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2017-02-26 226:00">Feb 26, 2017</time></p>
+      <p>#Linux </p>
+    </div>
+  </article>
+</a>
+      
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+<script src="https://www.si9ma.com/js/core.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+  </body>
+</html>
