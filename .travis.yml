@@ -12,7 +12,7 @@ before_install:
 
 # install - install any dependencies required
 install:
-  - curl -s -H "Authorization:bearer $GITHUB_TOKEN" https://api.github.com/repos/gohugoio/hugo/releases/latest | grep -o -P '(?<=browser_download_url". ").*?Linux-64bit.deb' | head -1  | xargs wget
+  - curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep -o -P '(?<=browser_download_url". ").*?Linux-64bit.deb' | head -1  | xargs wget
   - sudo dpkg -i hugo*.deb
 
 branches:
